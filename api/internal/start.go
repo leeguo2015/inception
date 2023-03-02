@@ -1,6 +1,8 @@
 package internal
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,5 +13,7 @@ func Start() {
 
 	paddingRouterV1(router)
 
-	router.Run(":8080")
+	if err := router.Run(":8080"); err != nil {
+		log.Fatal(err)
+	}
 }
