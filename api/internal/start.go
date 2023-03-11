@@ -11,11 +11,6 @@ func Start() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(gin.Recovery())
-
-	router.GET("/health", func(c *gin.Context) {
-		c.String(200, "OK")
-	})
-
 	router.GET("/", func(c *gin.Context) {
 		c.String(200, "OK")
 	})
