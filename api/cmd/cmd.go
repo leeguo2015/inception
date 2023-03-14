@@ -1,26 +1,16 @@
 package cmd
 
 import (
-	"inception/api/config"
 	"inception/api/internal"
 	"inception/api/internal/global"
-	"log"
+)
+
+const (
+	//ConfigFilePath = "configs/api.yaml"
+	ConfigFilePath = "configs/inceptionApi.yaml"
 )
 
 func Run() {
-	global.Config = InitConfig()
+	global.InitConfig()
 	internal.Start()
-}
-
-const (
-	COnfigFilePath = "configs/api.yaml"
-)
-
-func InitConfig() *config.Config {
-	c := config.New()
-	if err := c.Load(COnfigFilePath); err != nil {
-		panic(err)
-	}
-	log.Println("config:", c)
-	return c
 }

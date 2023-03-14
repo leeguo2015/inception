@@ -1,9 +1,8 @@
 package config
 
 import (
-	"io/ioutil"
-
 	"gopkg.in/yaml.v2"
+	"os"
 )
 
 type Config struct {
@@ -16,13 +15,13 @@ func New() *Config {
 	return &Config{}
 }
 func (c *Config) Load(url string) error {
-	yamlFile, err := ioutil.ReadFile(url)
+
+	yamlFile, err := os.ReadFile(url)
 	if err != nil {
 		return err
 	}
 
-	err = yaml.Unmarshal(yamlFile, c)
-	if err != nil {
+	if err := yaml.Unmarshal(yamlFile, c); err != nil {
 		return err
 	}
 	return nil

@@ -1,13 +1,16 @@
 package internal
 
 import (
-	"log"
-
 	"github.com/gin-gonic/gin"
+	"inception/api/internal/global"
+	"inception/api/internal/model"
+	"log"
 )
 
 func Start() {
-	log.Println("Starting Inception API")
+	model.AutoMigrate()
+
+	global.Log.Info("Starting Inception API")
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(gin.Recovery())

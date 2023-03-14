@@ -10,7 +10,7 @@ mysql:
   password: root
 
 logger:
-  level: INFO
+  level: debug
   prefix: "[inception]"
   show-line: true
   log-in-console: true

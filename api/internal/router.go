@@ -7,7 +7,8 @@ import (
 )
 
 func paddingRouterV1(engine *gin.Engine) {
-	V1 := engine.Group("/v1")
-	routers.User(V1)
-	routers.Blog(V1)
+	V1 := engine.Group("v1")
+	api := V1.Group("api")
+	routers.User(api)
+	routers.Blog(api)
 }
