@@ -1,52 +1,16 @@
 package global
 
 import (
-	"database/sql"
+	"errors"
+	"inception/api/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-type Mysql struct {
-	Dialect      string
-	URL          string
-	DB           *sql.DB
-	DBName       string
-	User         string
-	Password     string
-	Host         string
-	Port         int
-	MaxIdleConns int
-	MaxOpenConns int
-}
-
-func NewConfig(dialect, url, dbname, user, password, host string, port, maxidle, maxopen int) *Mysql {
-	return &Mysql{
-		Dialect:      dialect,
-		URL:          url,
-		DBName:       dbname,
-		User:         user,
-		Password:     password,
-		Host:         host,
-		Port:         port,
-		MaxIdleConns: maxidle,
-		MaxOpenConns: maxopen,
-	}
-}
-
-// func ConnectMySQL(cfg MySQLConfig) (*gorm.DB, error) {
-// 	dsn := cfg.User + ":" + cfg.Password + "@tcp(" + cfg.Host + ":" + cfg.Port + ")/" + cfg.Database + "?charset=utf8mb4&parseTime=True&loc=Local"
-// 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return db, nil
-// }
-
-func GormMysql() *gorm.DB {
-	m := Config.Mysql
+func ParesGormMysql(m *config.Mysql) (*gorm.DB, error) {
 	if m.DB == "" {
-		return nil
+		return nil, errors.New("database configuration is required")
 	}
 	mysqlConfig := mysql.Config{
 		DSN:                       m.Dsn(), // DSN data source name
@@ -54,11 +18,11 @@ func GormMysql() *gorm.DB {
 		SkipInitializeWithVersion: false,   // 根据版本自动配置
 	}
 	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{}); err != nil {
-		return nil
+		return nil, err
 	} else {
 		sqlDB, _ := db.DB()
-		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
-		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
-		return db
+		sqlDB.SetMaxIdleConns(m.MaxIdleConn)
+		sqlDB.SetMaxOpenConns(m.MaxOpenConn)
+		return db, nil
 	}
 }
