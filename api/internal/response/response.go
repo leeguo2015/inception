@@ -18,7 +18,6 @@ const (
 )
 
 func Result(code int, data interface{}, msg string, c *gin.Context) {
-	// 开始时间
 	c.JSON(http.StatusOK, Response{
 		code,
 		data,
@@ -52,4 +51,40 @@ func FailWithMessage(message string, c *gin.Context) {
 
 func FailWithDetailed(data interface{}, message string, c *gin.Context) {
 	Result(ERROR, data, message, c)
+}
+
+func httpResult(httpStatus int, data interface{}, msg string, c *gin.Context) {
+	c.JSON(httpStatus, gin.H{
+		"data": data,
+		"msg":  msg,
+	})
+}
+
+//使用http原生协议
+
+func HttpOk(msg string, c *gin.Context) {
+	httpResult(http.StatusOK, nil, msg, c)
+}
+
+func HttpOkDetails(data interface{}, msg string, c *gin.Context) {
+	httpResult(http.StatusOK, data, msg, c)
+}
+
+func HttpBadDetail(data interface{}, msg string, c *gin.Context) {
+	httpResult(http.StatusBadRequest, data, msg, c)
+}
+func HttpBadRequest(msg string, c *gin.Context) {
+	httpResult(http.StatusBadRequest, nil, msg, c)
+}
+
+func HttpUnauthorized(data interface{}, msg string, c *gin.Context) {
+	httpResult(http.StatusUnauthorized, data, msg, c)
+}
+
+func HttpNotFound(data interface{}, msg string, c *gin.Context) {
+	httpResult(http.StatusNotFound, data, msg, c)
+}
+
+func HttpUnprocessableEntity(msg string, c *gin.Context) {
+	httpResult(http.StatusUnprocessableEntity, nil, msg, c)
 }

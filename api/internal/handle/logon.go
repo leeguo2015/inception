@@ -3,11 +3,9 @@ package handle
 import (
 	"github.com/gin-gonic/gin"
 	"inception/api/internal/global"
-	"inception/api/internal/logic"
-	"inception/api/internal/model"
+	"inception/api/internal/logic/users"
 	"inception/api/internal/response"
 	"inception/api/internal/utils"
-	"net/http"
 )
 
 // Logon
@@ -15,13 +13,15 @@ import (
 //	@Description: 注册
 //	@param c
 func Logon(c *gin.Context) {
-	user := new(model.User)
+	user := new(users.Register)
 	if err := c.BindJSON(user); err != nil {
 		global.Log.Error(err.Error())
-		response.FailWithMessage(utils.ErrJsonBind, c)
+		response.HttpUnprocessableEntity(utils.ErrJsonBind, c)
+		return
 	}
-	if err := logic.Logon(user); err != nil {
-		response.FailWithMessage(utils.ErrJsonBind, c)
+	if err := users.Logon(user); err != nil {
+		response.HttpBadRequest(err.Error(), c)
+		return
 	}
-	c.JSON(http.StatusOK, nil)
+	response.HttpOk("注册成功", c)
 }

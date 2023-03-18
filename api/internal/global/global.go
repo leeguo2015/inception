@@ -1,18 +1,21 @@
 package global
 
 import (
-	"inception/api/config"
-
+	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"inception/api/config"
+	"time"
 )
 
 var (
-	Config *config.Config
-	DB     *gorm.DB
-	Log    *logrus.Logger
-	// 跨域配置
-	Cors CORS // `mapstructure:"cors" json:"cors" yaml:"cors"`
+	Config    *config.Config
+	DB        *gorm.DB
+	REDIS     *redis.Client
+	Log       *logrus.Logger
+	Cors      CORS // `mapstructure:"cors" json:"cors" yaml:"cors"`
+	Captcha   captcha
+	JwtTimout = 30 * 24 * time.Hour
 )
 
 const (
@@ -20,10 +23,14 @@ const (
 	ConfigFilePath = "configs/inceptionApi.yaml"
 )
 
-func Init(c *config.Config) error {
+func Parse(c *config.Config) error {
 	var err error
 	Log = ParesLog(&c.Logger)
 	DB, err = ParesGormMysql(&c.Mysql)
+	if err != nil {
+		return err
+	}
+	REDIS, err = ParseRedis(&c.Redis)
 	if err != nil {
 		return err
 	}
@@ -37,7 +44,7 @@ func InitConfig() *config.Config {
 	}
 	logrus.Printf("config path:\t%s", ConfigFilePath)
 	logrus.Printf("config content:\t%#v", *Config)
-	if err := Init(Config); err != nil {
+	if err := Parse(Config); err != nil {
 		logrus.Panic(err)
 	}
 	return Config

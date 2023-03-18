@@ -9,6 +9,11 @@ mysql:
   user: root
   password: root
 
+redis:
+  host: local
+  port: 6379
+  password: root
+
 logger:
   level: debug
   prefix: "[inception]"
