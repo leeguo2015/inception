@@ -16,5 +16,5 @@ func Logon(route *gin.RouterGroup) {
 }
 
 func Login(route *gin.RouterGroup) {
-	route.POST("/login", handle.Logon)
+	route.POST("/login", handle.Login)
 }

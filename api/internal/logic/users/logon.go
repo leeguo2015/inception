@@ -31,7 +31,7 @@ func Logon(register *Register) error {
 	user.HeaderImg = model.DefaultPortrait
 	user.LastTime = time.Now()
 	if user.Birth == "" {
-		time.Now().Format(time.DateOnly)
+		time.Now().Format(time.DateTime)
 	}
 	user.Password = utils.BcryptHash(user.Password)
 	return global.DB.Create(&user).Error

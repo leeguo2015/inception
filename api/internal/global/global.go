@@ -14,7 +14,7 @@ var (
 	REDIS     *redis.Client
 	Log       *logrus.Logger
 	Cors      CORS // `mapstructure:"cors" json:"cors" yaml:"cors"`
-	Captcha   captcha
+	Captcha   *captcha
 	JwtTimout = 30 * 24 * time.Hour
 )
 
@@ -25,13 +25,20 @@ const (
 
 func Parse(c *config.Config) error {
 	var err error
+	logrus.Printf("初始化日志库")
 	Log = ParesLog(&c.Logger)
+	Log.Info("初始化 mysql")
 	DB, err = ParesGormMysql(&c.Mysql)
 	if err != nil {
 		return err
 	}
+	Log.Info("初始化 redis")
 	REDIS, err = ParseRedis(&c.Redis)
 	if err != nil {
+		return err
+	}
+	Captcha = new(captcha)
+	if err = ParseCaptcha(Captcha); err != nil {
 		return err
 	}
 	return nil
