@@ -3,7 +3,6 @@ package model
 import (
 	"errors"
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 	"inception/api/internal/global"
 	"time"
 )
@@ -16,26 +15,28 @@ func UserMigrate() error {
 }
 
 type User struct {
-	gorm.Model
+	//gorm.Model
+	Base
 	Uuid     uuid.UUID `json:"uuid" gorm:"index;column:uuid"`
-	UserName string    `json:"username" gorm:"index;type:varchar(32);unique_index"`
+	UserName string    `json:"userName" gorm:"index;type:varchar(32);unique_index"`
 	Password string    `json:"-" gorm:"type:varchar(128);"`
-	RealName string    `json:"real_name" gorm:"type:varchar(32);"`
+	RealName string    `json:"realName" gorm:"type:varchar(32);"`
 	//Portrait string    `json:"portrait" gorm:"type:varchar(128);"`
 	HeaderImg string `json:"headerImg" gorm:"default:https://qmplusimg.henrongyi.top/gva_header.jpg;comment:用户头像"` // 用户头像
 	Gender    int    `json:"gender" gorm:"type:TINYINT;default:0"`
-	IDCard    string `json:"id_card" gorm:"type:varchar(128);"`
+	IDCard    string `json:"IDCard" gorm:"type:varchar(128);"`
 	Addr      string `json:"addr" gorm:"type:varchar(256);"`
-	Phone     string `json:"Phone" gorm:"type:varchar(128);unique_index;"`
+	Phone     string `json:"phone" gorm:"type:varchar(128);unique_index;"`
 	Email     string `json:"email" gorm:"type:varchar(128);"`
-	IPAddr    string `json:"ip_addr" gorm:"type:varchar(128);"`
+	IPAddr    string `json:"IPAddr" gorm:"type:varchar(128);"`
 
 	AuthorityId uint `json:"authorityId" gorm:"default:888;comment:用户角色ID"` // 用户角色ID
 	//Authority   SysAuthority   `json:"authority" gorm:"foreignKey:AuthorityId;references:AuthorityId;comment:用户角色"`
 	Status   int       `json:"status" gorm:"type:int;"` // 0 正常，1。冻结，2.注销
 	Birth    string    `json:"birth"`
-	LastTime time.Time `json:"last_time"`
+	LastTime time.Time `json:"lastTime"`
 	//Roles    []AuthRole `gorm:"many2many:user_roles;"`
+	BaseTime
 }
 
 const (

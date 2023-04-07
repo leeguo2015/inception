@@ -15,6 +15,7 @@ import (
 type Register struct {
 	Username    string `json:"userName"`
 	Password    string `json:"passWord"`
+	Email       string `json:"email" gorm:"type:varchar(128);"`
 	HeaderImg   string `json:"headerImg" gorm:"default:'https://qmplusimg.henrongyi.top/gva_header.jpg'"`
 	AuthorityId uint   `json:"authorityId" gorm:"default:888"`
 }
@@ -24,7 +25,9 @@ func Logon(register *Register) error {
 	if err := register.User(user); err != nil {
 		return err //
 	}
-	if !errors.Is(global.DB.Where("user_name = ?", user.UserName).Or("email = ?", user.Email).First(&user).Error, gorm.ErrRecordNotFound) { // 判断用户名是否注册
+	err := global.DB.Where("user_name = ?", user.UserName).Or("email = ?", user.Email).First(&user).Error
+	if !errors.Is(err, gorm.ErrRecordNotFound) { // 判断用户名是否注册
+		global.Log.Error(err)
 		return errors.New("用户名或邮箱已注册")
 	}
 	user.Uuid = uuid.New()
@@ -45,5 +48,6 @@ func (r *Register) User(user *model.User) error {
 	user.Password = r.Password
 	user.HeaderImg = r.HeaderImg
 	user.AuthorityId = r.AuthorityId
+	user.Email = r.Email
 	return nil
 }
