@@ -13,21 +13,24 @@ import (
 //	@Description:
 //	@param c
 func Login(c *gin.Context) {
-	userName := c.Param("user_name")
-	password := c.Param("password")
-	captcha := c.Param("captcha")
-	captchaID := c.Param("captchaID")
-	if !users.CheckCaptcha(captchaID, captcha) {
-		global.Log.Errorf("%s:验证码错误", userName)
-		response.HttpBadRequest("验证码错误", c)
-	}
+	userName := c.PostForm("userName")
+	password := c.PostForm("password")
+	// todo 暂时关闭验证码
+	//captcha := c.Param("captcha")
+	//captchaID := c.Param("captchaID")
+	//if !users.CheckCaptcha(captchaID, captcha) {
+	//	global.Log.Errorf("%s:验证码错误", userName)
+	//	response.HttpBadRequest("验证码错误", c)
+	//}
 	if userName == "" || password == "" {
 		response.HttpBadRequest(utils.ErrParams, c)
+		return
 	}
 	userInfo, token, err := users.Login(userName, password)
 	if err != nil {
 		global.Log.Errorf("%s 登录失败:%s,", userName, err.Error())
 		response.FailWithMessage(err.Error(), c)
+		return
 	}
 	response.OkWithDetailed(gin.H{
 		"userInfo": userInfo,

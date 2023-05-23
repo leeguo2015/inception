@@ -12,7 +12,7 @@ import (
 
 func Login(userName, password string) (*model.User, string, error) {
 	user := new(model.User)
-	if global.DB.Where("username = ?", userName).First(user).Error == gorm.ErrRecordNotFound {
+	if global.DB.Where("user_name = ?", userName).First(user).Error == gorm.ErrRecordNotFound {
 		return nil, "", errors.New("用户不存在")
 	}
 	// 后续添加输出错误次数

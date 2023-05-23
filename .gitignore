@@ -15,5 +15,10 @@
 vendor/
  
 .idea 
+.vscode
 *inceptionApi.yaml
 /tmp
+
+web/node_modules
+web/dist
+ .air*

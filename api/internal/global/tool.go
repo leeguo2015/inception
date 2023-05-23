@@ -5,3 +5,10 @@ type captcha struct {
 	ImgWidth  int `mapstructure:"img-width" json:"img-width" yaml:"img-width"`    // 验证码宽度
 	ImgHeight int `mapstructure:"img-height" json:"img-height" yaml:"img-height"` // 验证码高度
 }
+
+func ParseCaptcha(c *captcha) error {
+	c.KeyLong = 6
+	c.ImgWidth = 240
+	c.ImgHeight = 80
+	return nil
+}

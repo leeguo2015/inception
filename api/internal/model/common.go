@@ -7,4 +7,9 @@ func AutoMigrate() {
 	if err := UserMigrate(); err != nil {
 		global.Log.Error(err)
 	}
+	global.Log.Info("初始化博客表")
+	if err := BlogMigrate(); err != nil {
+		global.Log.Error(err)
+	}
+
 }

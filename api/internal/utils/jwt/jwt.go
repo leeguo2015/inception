@@ -11,6 +11,7 @@ import (
 
 var AppSecret = ""       //viper.GetString会设置这个值(32byte长度)
 var AppIss = "inception" //这个值会被viper.GetString重写
+var UserClaims = "UserClaims"
 
 // 自定义payload结构体,不建议直接使用 dgrijalva/jwt-go `jwt.StandardClaims`结构体.因为他的payload包含的用户信息太少.
 type userStdClaims struct {
@@ -79,5 +80,5 @@ func ParseToken(tokenString string) (*BaseClaims, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &claims.BaseClaims, err
+	return &claims.BaseClaims, nil
 }

@@ -11,4 +11,5 @@ func paddingRouterV1(engine *gin.Engine) {
 	api := V1.Group("api")
 	routers.User(api)
 	routers.Blog(api)
+	routers.Utils(api)
 }

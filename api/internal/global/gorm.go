@@ -2,6 +2,7 @@ package global
 
 import (
 	"errors"
+	"gorm.io/gorm/logger"
 	"inception/api/config"
 
 	"gorm.io/driver/mysql"
@@ -17,7 +18,9 @@ func ParesGormMysql(m *config.Mysql) (*gorm.DB, error) {
 		DefaultStringSize:         191,     // string 类型字段的默认长度
 		SkipInitializeWithVersion: false,   // 根据版本自动配置
 	}
-	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{}); err != nil {
+	if db, err := gorm.Open(mysql.New(mysqlConfig), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	}); err != nil {
 		return nil, err
 	} else {
 		sqlDB, _ := db.DB()

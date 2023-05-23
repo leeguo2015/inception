@@ -15,7 +15,8 @@ type BaseApi struct{}
 func (b *BaseApi) Captcha() (id, b64s string, err error) {
 	// 字符,公式,验证码配置
 	// 生成默认数字的driver
-	driver := base64Captcha.NewDriverDigit(global.Captcha.ImgHeight, global.Captcha.ImgWidth, global.Captcha.KeyLong, 0.7, 80)
+	driver := base64Captcha.NewDriverDigit(global.Captcha.ImgHeight, global.Captcha.ImgWidth,
+		global.Captcha.KeyLong, 0.7, 80)
 	//cp := base64Captcha.NewCaptcha(driver, Store.UseWithCtx(c)) // v8下使用redis
 	cp := base64Captcha.NewCaptcha(driver, Store)
 	//cp := base64Captcha.NewCaptcha(driver, Store)
