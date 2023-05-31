@@ -11,8 +11,8 @@ func Blog(route *gin.RouterGroup) {
 }
 
 func Info(route *gin.RouterGroup) {
-	route.POST("/", handle.Login)
-	route.GET("/:blogID", handle.Login)
-	route.DELETE("/:blogID", handle.Login)
-	route.PUT("/:blogID", handle.Login)
+	route.POST("/", handle.BlogAdd)
+	route.GET("/:blogID", handle.BlogGet)
+	route.DELETE("/:blogID", handle.BlogDelete)
+	route.PUT("/:blogID", handle.BlogUpdate)
 }

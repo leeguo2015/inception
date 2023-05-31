@@ -3,6 +3,7 @@ package internal
 import (
 	"github.com/gin-gonic/gin"
 	"inception/api/internal/global"
+	"inception/api/internal/middleware"
 	"inception/api/internal/model"
 	"log"
 )
@@ -14,6 +15,7 @@ func Start() {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.Use(gin.Recovery())
+	router.Use(middleware.JWTAuth())
 	router.GET("/", func(c *gin.Context) {
 		c.String(200, "OK")
 	})

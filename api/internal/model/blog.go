@@ -1,22 +1,23 @@
 package model
 
 import (
+	"github.com/google/uuid"
 	"inception/api/internal/global"
 )
 
 type (
 	Tag struct {
 		Base
-		Content string `gorm:"not null;type:varchar(48)"`
+		Name string `gorm:"not null;type:varchar(48);uniqueIndex"`
 		BaseTime
 		Blogs []Blog `gorm:"many2many:blog_tags;"`
 	}
 
 	Blog struct {
 		Base
-		UUID   string
-		UserID uint `gorm:"not null"`
-		User   User `gorm:"foreignKey:UserID"`
+		Uuid   uuid.UUID `json:"uuid" gorm:"index;column:uuid"`
+		UserID uint      `gorm:"not null"`
+		User   User      `gorm:"foreignKey:UserID"`
 
 		Title   string `gorm:"not null;type:varchar(48)"`
 		Content string ` gorm:"not null;type:text"`
@@ -55,6 +56,18 @@ type (
 		CountRead       int
 	}
 )
+
+const (
+	TagTableName  = "tags"
+	BlogTableName = "blogs"
+	UserTableName = "users"
+)
+
+func NewBlog() *Blog {
+	return &Blog{
+		Uuid: uuid.New(),
+	}
+}
 
 func BlogMigrate() error {
 	MigrateList := make([]interface{}, 0)
