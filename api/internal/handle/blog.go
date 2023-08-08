@@ -1,13 +1,14 @@
 package handle
 
 import (
-	"github.com/gin-gonic/gin"
 	"inception/api/internal/global"
 	"inception/api/internal/logic/blog"
 	"inception/api/internal/model"
 	"inception/api/internal/response"
 	"inception/api/internal/utils"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func BlogAdd(c *gin.Context) {
@@ -21,7 +22,7 @@ func BlogAdd(c *gin.Context) {
 	newBlog.Title = c.PostForm("title")
 	newBlog.Content = c.PostForm("content")
 	tags := blog.GetInsertTags(c.PostFormArray("tags"))
-	global.Log.Info("c.PostFormArray", tags[0].ID, tags[1].ID)
+	// global.Log.Info("c.PostFormArray", tags[0].ID, tags[1].ID)
 
 	//newBlog.Tags = blog.GetInsertTags(c.PostFormArray("tags"))
 	newBlog.UserID = claims.ID
@@ -36,9 +37,11 @@ func BlogAdd(c *gin.Context) {
 }
 
 func BlogDelete(c *gin.Context) {
-	blogId, err := strconv.Atoi(c.PostForm("blog_id"))
+
+	blogId, err := strconv.Atoi(c.Param("blogID"))
 	if err != nil {
 		global.Log.Error("参数错误：", err.Error())
+		response.Fail(c)
 		return
 	}
 	if err := blog.Delete(uint(blogId)); err != nil {
@@ -47,7 +50,6 @@ func BlogDelete(c *gin.Context) {
 		return
 	}
 	response.Ok(c)
-
 }
 
 func BlogUpdate(c *gin.Context) {
@@ -55,5 +57,19 @@ func BlogUpdate(c *gin.Context) {
 }
 
 func BlogGet(c *gin.Context) {
+
+	blogId, err := strconv.Atoi(c.Param("blogID"))
+	if err != nil {
+		global.Log.Error("参数错误：", err.Error())
+		response.Fail(c)
+		return
+	}
+	blog, err := blog.Get(uint(blogId))
+	if err != nil {
+		global.Log.Errorf("博客删除失败blogId: %d: %s,", blogId, err.Error())
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	response.OkWithData(blog, c)
 
 }

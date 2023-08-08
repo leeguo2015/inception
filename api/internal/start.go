@@ -1,15 +1,15 @@
 package internal
 
 import (
-	"github.com/gin-gonic/gin"
 	"inception/api/internal/global"
 	"inception/api/internal/middleware"
-	"inception/api/internal/model"
-	"log"
+	_ "inception/api/internal/model"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Start() {
-	model.AutoMigrate()
+	// model.AutoMigrate()
 
 	global.Log.Info("Starting Inception API")
 	gin.SetMode(gin.ReleaseMode)
@@ -19,11 +19,9 @@ func Start() {
 	router.GET("/", func(c *gin.Context) {
 		c.String(200, "OK")
 	})
-	router.GET("/health", func(c *gin.Context) {
-		c.String(200, "OK")
-	})
+
 	paddingRouterV1(router)
 	if err := router.Run(":8080"); err != nil {
-		log.Fatal(err)
+		global.Log.Error(err)
 	}
 }
