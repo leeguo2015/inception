@@ -1,11 +1,12 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"
 	"inception/api/internal/global"
 	"inception/api/internal/response"
 	"inception/api/internal/utils"
 	"inception/api/internal/utils/jwt"
+
+	"github.com/gin-gonic/gin"
 )
 
 func JWTAuth() gin.HandlerFunc {
@@ -24,6 +25,7 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 		c.Set(utils.Claims, claims)
+		c.Set(utils.UserID, claims.UserID)
 		c.Next()
 	}
 }

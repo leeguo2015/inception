@@ -1,37 +1,38 @@
 package model
 
 import (
-	"github.com/google/uuid"
 	"inception/api/internal/global"
+
+	"github.com/google/uuid"
 )
 
 type (
 	Tag struct {
 		Base
 		Name string `gorm:"not null;type:varchar(48);uniqueIndex"`
-		BaseTime
-		Blogs []Blog `gorm:"many2many:blog_tags;"`
+		BaseTime 
+		Blogs []Blog `gorm:"many2many:blog_tags;" json:"-"`
 	}
 
 	Blog struct {
 		Base
 		Uuid   uuid.UUID `json:"uuid" gorm:"index;column:uuid"`
 		UserID uint      `gorm:"not null"`
-		User   User      `gorm:"foreignKey:UserID"`
+		User   User      `gorm:"foreignKey:UserID" json:"-"`
 
 		Title   string `gorm:"not null;type:varchar(48)"`
 		Content string ` gorm:"not null;type:text"`
 		BaseTime
 
-		Remakes []Remake
-		Likes   []Like
-		Tags    []Tag `gorm:"many2many:blog_tags;"`
+		Remakes []Remake `json:"-"`
+		Likes   []Like   `json:"-"`
+		Tags    []Tag    `gorm:"many2many:blog_tags;"`
 	}
 
 	Remake struct {
 		Base
 		UserID  uint
-		User    User `gorm:"foreignKey:UserID"`
+		User    User `json:"-" gorm:"foreignKey:UserID"`
 		BlogID  uint
 		Blog    Blog   `gorm:"foreignKey:BlogID"`
 		Content string `gorm:"not null;type:varchar(512)"`
@@ -41,9 +42,9 @@ type (
 	Like struct {
 		Base
 		UserID uint
-		User   User `gorm:"foreignKey:UserID"`
+		User   User `json:"-" gorm:"foreignKey:UserID"`
 		BlogID uint
-		Blog   Blog `gorm:"foreignKey:BlogID"`
+		Blog   Blog `json:"-" gorm:"foreignKey:BlogID" `
 		BaseTime
 	}
 )

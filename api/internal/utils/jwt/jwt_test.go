@@ -1,15 +1,16 @@
 package jwt
 
 import (
-	"github.com/google/uuid"
 	"testing"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 func TestJwtGenerateToken(t *testing.T) {
 	m := BaseClaims{
 		UUID:     uuid.New(),
-		ID:       123,
+		UserID:   123,
 		Username: "test",
 
 		AuthorityId: 1,

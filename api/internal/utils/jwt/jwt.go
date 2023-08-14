@@ -3,10 +3,11 @@ package jwt
 import (
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
-	"time"
 )
 
 var AppSecret = ""       //viper.GetString会设置这个值(32byte长度)
@@ -22,7 +23,7 @@ type userStdClaims struct {
 
 type BaseClaims struct {
 	UUID        uuid.UUID
-	ID          uint
+	UserID      uint
 	Username    string
 	AuthorityId uint
 }
@@ -35,7 +36,7 @@ func (c userStdClaims) Valid() (err error) {
 	if !c.VerifyIssuer(AppIss, true) {
 		return errors.New("token's issuer is wrong")
 	}
-	if c.ID < 1 {
+	if c.UserID < 1 {
 		return errors.New("invalid user in jwt")
 	}
 	return
@@ -46,7 +47,7 @@ func GenerateToken(m BaseClaims, d time.Duration) (string, error) {
 	stdClaims := jwt.StandardClaims{
 		ExpiresAt: expireTime.Unix(),
 		IssuedAt:  time.Now().Unix(),
-		Id:        fmt.Sprintf("%d", m.ID),
+		Id:        fmt.Sprintf("%d", m.UserID),
 		Issuer:    AppIss,
 	}
 
