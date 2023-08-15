@@ -10,7 +10,7 @@ type (
 	Tag struct {
 		Base
 		Name string `gorm:"not null;type:varchar(48);uniqueIndex"`
-		BaseTime 
+		BaseTime
 		Blogs []Blog `gorm:"many2many:blog_tags;" json:"-"`
 	}
 
@@ -24,18 +24,20 @@ type (
 		Content string ` gorm:"not null;type:text"`
 		BaseTime
 
-		Remakes []Remake `json:"-"`
-		Likes   []Like   `json:"-"`
-		Tags    []Tag    `gorm:"many2many:blog_tags;"`
+		Comment []Comment `json:"-"`
+		Likes   []Like    `json:"-"`
+		Tags    []Tag     `gorm:"many2many:blog_tags;"`
 	}
 
-	Remake struct {
+	Comment struct {
 		Base
-		UserID  uint
-		User    User `json:"-" gorm:"foreignKey:UserID"`
-		BlogID  uint
-		Blog    Blog   `gorm:"foreignKey:BlogID"`
-		Content string `gorm:"not null;type:varchar(512)"`
+		UserID   uint
+		User     User `json:"-" gorm:"foreignKey:UserID"`
+		BlogID   uint
+		Blog     Blog      `gorm:"foreignKey:BlogID"`
+		Content  string    `gorm:"not null;type:varchar(512)"`
+		ParentID uint      // 表示父评论的ID
+		Replies  []Comment `gorm:"foreignkey:ParentID"` // 子评论，即多个评论的评论
 		BaseTime
 	}
 
@@ -51,7 +53,7 @@ type (
 
 type (
 	BlogCache struct {
-		CountRemake     int
+		CountComment    int
 		CountLike       int
 		CountCollecting int
 		CountRead       int
@@ -72,37 +74,9 @@ func NewBlog() *Blog {
 
 func BlogMigrate() error {
 	MigrateList := make([]interface{}, 0)
-	MigrateList = append(MigrateList, &Blog{}, &Remake{}, &Like{})
+	MigrateList = append(MigrateList, &Blog{}, &Comment{}, &Like{})
 	if err := global.DB.AutoMigrate(MigrateList...); err != nil {
 		return err
 	}
 	return nil
 }
-
-//func TagsMigrate() error {
-//	if err := global.DB.AutoMigrate(&Tag{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func RemakesMigrate() error {
-//	if err := global.DB.AutoMigrate(&Remake{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func TagsMigrate() error {
-//	if err := global.DB.AutoMigrate(&Tag{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func TagsMigrate() error {
-//	if err := global.DB.AutoMigrate(&Like{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}

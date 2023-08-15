@@ -8,12 +8,13 @@ import (
 
 func Blog(route *gin.RouterGroup) {
 	blogGroup := route.Group("/blog")
-	remakeGroup := route.Group("/remark")
+	CommentGroup := route.Group("/Comment")
 	Info(blogGroup)
-	remark(remakeGroup)
+	Comment(CommentGroup)
 }
 
 // 目前权限全放开， 不考虑权限问题
+
 func Info(route *gin.RouterGroup) {
 	route.POST("/", handle.BlogAdd)
 	route.GET("/:blogID", handle.BlogGet)
@@ -21,9 +22,9 @@ func Info(route *gin.RouterGroup) {
 	route.PUT("/:blogID", handle.BlogUpdate)
 }
 
-func remark(route *gin.RouterGroup) {
-	route.POST("/", handle.BlogAdd)
-	route.GET("/:blogID", handle.BlogGet)
-	route.DELETE("/:blogID", handle.BlogDelete)
-	route.PUT("/:blogID", handle.BlogUpdate)
+func Comment(route *gin.RouterGroup) {
+	route.POST("/:blogID", handle.CommentAdd)
+	route.GET("/:blogID", handle.CommentGet)
+	route.DELETE("/:blogID", handle.CommentDelete)
+	// route.PUT("/:blogID", handle.CommentUpdate)
 }

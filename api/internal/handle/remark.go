@@ -7,25 +7,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RemarkAdd(c *gin.Context) {
+func CommentAdd(c *gin.Context) {
 
 	response.Ok(c)
 
 }
 
-func RemarkDelete(c *gin.Context) {
+func CommentDelete(c *gin.Context) {
 
 	response.Ok(c)
 }
 
-func RemarkUpdate(c *gin.Context) {
+// func CommentUpdate(c *gin.Context) {
 
-	response.Ok(c)
-}
+// 	response.Ok(c)
+// }
 
-func RemarkGet(c *gin.Context) {
-	remake := model.Remake{}
-
-	response.OkWithData(remake, c)
+func CommentGet(c *gin.Context) {
+	Comment := model.Comment{}
+	response.OkWithData(Comment, c)
 
 }

@@ -38,7 +38,7 @@ func Delete(blogID uint, UserID uint) error {
 	// 	return fmt.Errorf("get blog failed %s", err)
 	// }
 	// global.DB.Where("id=", blogID).Delete(&model.Like{})
-	// global.DB.Where("id=", blogID).Delete(&model.Remake{})
+	// global.DB.Where("id=", blogID).Delete(&model.Comment{})
 	// err := global.DB.Delete(blog).Error
 	err := global.DB.Select(clause.Associations).Delete(blog).Error
 	if err != nil {
