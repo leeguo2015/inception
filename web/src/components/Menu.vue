@@ -3,32 +3,37 @@
         text-color="#fff" :ellipsis="false" @select="handleSelect">
 
         <el-menu-item index="0">
-            HOME <el-icon>
+            <router-link to="/">主页</router-link> <el-icon>
                 <House />
-            </el-icon>
+                
+            </el-icon> 
         </el-menu-item>
         <el-menu-item index="2" >
-            VIEW <el-icon><DataBoard /></el-icon>
+            文章 <el-icon><DataBoard /></el-icon>
         </el-menu-item>
         <div class="flex-grow" />
-        <el-menu-item index="3">SEARCH <el-icon>
+        <el-menu-item index="3">搜索 <el-icon>
                 <Search />
             </el-icon></el-menu-item>
         <el-sub-menu index="4">
-            <template #title>USER <el-icon><User/></el-icon></template>
-            <el-menu-item index="2-1">信息更改</el-menu-item>
-            <el-menu-item index="2-1">文章管理</el-menu-item>
+            <template #title>个人信息 <el-icon><User/></el-icon></template>
+            <el-menu-item index="2-1">个人信息</el-menu-item>
+            <el-menu-item index="2-1">注销</el-menu-item>
         </el-sub-menu>
     </el-menu>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
+<script>
 
-const activeIndex = ref('1')
-const handleSelect = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
+export default {
+    data(){
+        return {
+            msg :"User"
+        }
+    }
+    
 }
+
 </script>
 
 <style>
