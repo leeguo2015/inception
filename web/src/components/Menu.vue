@@ -31,9 +31,19 @@
 </template>
 
 <script>
-//vue更具一个状态显示或者隐藏组件
-
-
+  export default {
+    data() {
+      return {
+        activeIndex: '1',
+        activeIndex2: '1'
+      };
+    },
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
+  }
 </script>
 
 <style>

@@ -24,8 +24,7 @@ import Menu from './components/Menu.vue'
   flex-direction:column;
   height: 100vh;
   /* 设置容器的高度为视口高度，以便看到居中效果 */
-  background-color: lightblue;
-  background-color: #93d5dc;
+  background-color: #e9ddb6;
   background-image: url("./assets/texture.png");
   
 
