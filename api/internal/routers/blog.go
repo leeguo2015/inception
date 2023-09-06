@@ -1,6 +1,7 @@
 package routers
 
 import (
+
 	"inception/api/internal/handle"
 
 	"github.com/gin-gonic/gin"
@@ -27,4 +28,5 @@ func Comment(route *gin.RouterGroup) {
 	route.GET("/:blogID", handle.CommentGet)
 	route.DELETE("/:blogID", handle.CommentDelete)
 	// route.PUT("/:blogID", handle.CommentUpdate)
+
 }

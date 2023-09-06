@@ -25,6 +25,7 @@ func ParseRedis(m *config.Redis) (*redis.Client, error) {
 		return nil, err
 	}
 	//go heartbeatRedis(context.Background(), client)
+
 	Log.Info("redis connect ping response:", ping)
 	return client, nil
 }

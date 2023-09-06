@@ -1,42 +1,14 @@
 package handle
 
-import (
-	"inception/api/internal/global"
-	"inception/api/internal/logic/blog"
-	"inception/api/internal/model"
-	"inception/api/internal/response"
-	"inception/api/internal/utils"
-	"strconv"
-
-	"github.com/gin-gonic/gin"
-)
+import "github.com/gin-gonic/gin"
 
 func BlogAdd(c *gin.Context) {
-	claims, err := utils.GetClaims(c)
-	if err != nil {
-		global.Log.Error("获取用户信息错误：", err.Error())
-		return
-	}
-	newBlog := model.NewBlog()
 
-	newBlog.Title = c.PostForm("title")
-	newBlog.Content = c.PostForm("content")
-	tags := blog.GetInsertTags(c.PostFormArray("tags"))
-	// global.Log.Info("c.PostFormArray", tags[0].ID, tags[1].ID)
-
-	//newBlog.Tags = blog.GetInsertTags(c.PostFormArray("tags"))
-	newBlog.UserID = claims.UserID
-	global.Log.Info(newBlog, claims)
-	if err := blog.Add(claims.UserID, newBlog, tags); err != nil {
-		global.Log.Errorf("%s 博客添加失败:%s,", claims.Username, err.Error())
-		response.FailWithMessage(err.Error(), c)
-		return
-	}
-	response.Ok(c)
 
 }
 
 func BlogDelete(c *gin.Context) {
+
 	userID := c.GetUint("userID")
 	blogId, err := strconv.Atoi(c.Param("blogID"))
 	if err != nil {
