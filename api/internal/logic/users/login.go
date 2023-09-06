@@ -2,12 +2,13 @@ package users
 
 import (
 	"errors"
-	"gorm.io/gorm"
 	"inception/api/internal/global"
 	"inception/api/internal/model"
 	"inception/api/internal/utils"
 	"inception/api/internal/utils/captcha"
 	"inception/api/internal/utils/jwt"
+
+	"gorm.io/gorm"
 )
 
 func Login(userName, password string) (*model.User, string, error) {
@@ -33,7 +34,7 @@ func CheckCaptcha(captchaID, captchaStr string) bool {
 func GenerateToken(user *model.User) (string, error) {
 	c := jwt.BaseClaims{
 		UUID:        user.Uuid,
-		ID:          user.ID,
+		UserID:      user.ID,
 		Username:    user.UserName,
 		AuthorityId: user.AuthorityId,
 	}

@@ -2,63 +2,89 @@ package model
 
 import (
 	"inception/api/internal/global"
+
+	"github.com/google/uuid"
+
 )
 
 type (
 	Tag struct {
 		Base
-		Content string `gorm:"not null;type:varchar(48)"`
+
+		Name string `gorm:"not null;type:varchar(48);uniqueIndex"`
 		BaseTime
-		Blogs []Blog `gorm:"many2many:blog_tags;"`
+		Blogs []Blog `gorm:"many2many:blog_tags;" json:"-"`
+
 	}
 
 	Blog struct {
 		Base
-		UUID   string
-		UserID uint `gorm:"not null"`
-		User   User `gorm:"foreignKey:UserID"`
+
+		Uuid   uuid.UUID `json:"uuid" gorm:"index;column:uuid"`
+		UserID uint      `gorm:"not null"`
+		User   User      `gorm:"foreignKey:UserID" json:"-"`
+
 
 		Title   string `gorm:"not null;type:varchar(48)"`
 		Content string ` gorm:"not null;type:text"`
 		BaseTime
 
-		Remakes []Remake
-		Likes   []Like
-		Tags    []Tag `gorm:"many2many:blog_tags;"`
+
+		Comment []Comment `json:"-"`
+		Likes   []Like    `json:"-"`
+		Tags    []Tag     `gorm:"many2many:blog_tags;"`
 	}
 
-	Remake struct {
+	Comment struct {
 		Base
-		UserID  uint
-		User    User `gorm:"foreignKey:UserID"`
-		BlogID  uint
-		Blog    Blog   `gorm:"foreignKey:BlogID"`
-		Content string `gorm:"not null;type:varchar(512)"`
+		UserID   uint
+		User     User `json:"-" gorm:"foreignKey:UserID"`
+		BlogID   uint
+		Blog     Blog      `gorm:"foreignKey:BlogID"`
+		Content  string    `gorm:"not null;type:varchar(512)"`
+		ParentID uint      // 表示父评论的ID
+		Replies  []Comment `gorm:"foreignkey:ParentID"` // 子评论，即多个评论的评论
 		BaseTime
 	}
 
 	Like struct {
 		Base
 		UserID uint
-		User   User `gorm:"foreignKey:UserID"`
+
+		User   User `json:"-" gorm:"foreignKey:UserID"`
 		BlogID uint
-		Blog   Blog `gorm:"foreignKey:BlogID"`
+		Blog   Blog `json:"-" gorm:"foreignKey:BlogID" `
+
 		BaseTime
 	}
 )
 
 type (
 	BlogCache struct {
-		CountRemake     int
+		CountComment    int
 		CountLike       int
 		CountCollecting int
 		CountRead       int
 	}
 )
 
+
+const (
+	TagTableName  = "tags"
+	BlogTableName = "blogs"
+	UserTableName = "users"
+)
+
+func NewBlog() *Blog {
+	return &Blog{
+		Uuid: uuid.New(),
+	}
+}
+
 func BlogMigrate() error {
 	MigrateList := make([]interface{}, 0)
-	MigrateList = append(MigrateList, &Blog{}, &Remake{}, &Like{})
+	MigrateList = append(MigrateList, &Blog{}, &Comment{}, &Like{})
+
 	if err := global.DB.AutoMigrate(MigrateList...); err != nil {
 		return err
 	}
@@ -92,3 +118,4 @@ func BlogMigrate() error {
 //	}
 //	return nil
 //}
+

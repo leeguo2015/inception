@@ -36,9 +36,10 @@ type User struct {
 	LastTime time.Time `json:"lastTime"`
 	//Roles    []AuthRole `gorm:"many2many:user_roles;"`
 
-	Blogs   []Blog
-	Remakes []Remake
-	Likes   []Like
+
+	Blogs    []Blog
+	Comments []Comment
+	Likes    []Like
 
 	//
 	BaseTime
