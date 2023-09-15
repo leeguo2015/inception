@@ -68,4 +68,3 @@ func Get(UserId uint) (model.Blog, error) {
 	}
 	return *blog, nil
 }
-

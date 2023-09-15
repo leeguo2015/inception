@@ -25,6 +25,7 @@ func CommentDelete(c *gin.Context) {
 
 func CommentGet(c *gin.Context) {
 	Comment := model.Comment{}
+	
 	response.OkWithData(Comment, c)
 
 }

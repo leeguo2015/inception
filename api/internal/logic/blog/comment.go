@@ -23,7 +23,7 @@ func CommentAdd(commentType CommentType, Comtent string, UserID, OwnerID uint) e
 	default:
 		return fmt.Errorf("unsupported comment type %s", commentType)
 	}
-	comment.Comtent = Comtent
+	comment.Content = Comtent
 	comment.UserID = UserID
 
 	if err := global.DB.Create(comment).Error; err != nil {
@@ -43,18 +43,18 @@ func CommentDelete(CommentID uint) error {
 
 }
 
-func CommentGet(blogID uint, start, limit int) ([]model.Comment, int, error) {
+func CommentGet(blogID uint, start, limit int) ([]model.Comment, int64, error) {
 	comments := []model.Comment{}
-	total := 0
+	total := int64(0)
 
 	// 查询符合条件的评论
-	err := db.Where("blog_id = ?", blogID).Offset(start).Limit(limit).Find(&comments).Error
+	err := global.DB.Where("blog_id = ?", blogID).Offset(start).Limit(limit).Find(&comments).Error
 	if err != nil {
 		return nil, total, err
 	}
 
 	// 查询总评论数
-	err = db.Model(&model.Comment{}).Where("blog_id = ?", blogID).Count(&total).Error
+	err = global.DB.Model(&model.Comment{}).Where("blog_id = ?", blogID).Count(&total).Error
 	if err != nil {
 		return nil, total, err
 	}
