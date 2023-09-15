@@ -3,6 +3,8 @@ package model
 import (
 	"database/sql"
 
+	"time"
+
 )
 
 type Base struct {

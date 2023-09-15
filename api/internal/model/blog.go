@@ -28,8 +28,6 @@ type (
 		Title   string `gorm:"not null;type:varchar(48)"`
 		Content string ` gorm:"not null;type:text"`
 		BaseTime
-
-
 		Comment []Comment `json:"-"`
 		Likes   []Like    `json:"-"`
 		Tags    []Tag     `gorm:"many2many:blog_tags;"`
@@ -68,7 +66,6 @@ type (
 	}
 )
 
-
 const (
 	TagTableName  = "tags"
 	BlogTableName = "blogs"
@@ -90,32 +87,4 @@ func BlogMigrate() error {
 	}
 	return nil
 }
-
-//func TagsMigrate() error {
-//	if err := global.DB.AutoMigrate(&Tag{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func RemakesMigrate() error {
-//	if err := global.DB.AutoMigrate(&Remake{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func TagsMigrate() error {
-//	if err := global.DB.AutoMigrate(&Tag{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}
-//
-//func TagsMigrate() error {
-//	if err := global.DB.AutoMigrate(&Like{}); err != nil {
-//		return err
-//	}
-//	return nil
-//}
 

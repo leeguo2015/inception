@@ -1,7 +1,6 @@
 package middleware
 
 import (
-
 	"inception/api/internal/global"
 	"inception/api/internal/response"
 	"inception/api/internal/utils"
@@ -15,11 +14,11 @@ func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 我们这里jwt鉴权取头部信息 x-token 登录时回返回token信息 这里前端需要把token存储到cookie或者本地localStorage中 不过需要跟后端协商过期时间 可以约定刷新令牌或者重新登录
 		token := c.Request.Header.Get("x-token")
-
 		global.Log.Info("token: ", token)
-
-		//j := jwt.BaseClaims{}
-		// parseToken 解析token包含的信息
+		if token == "" {
+			//c.Next()
+			return
+		}
 
 		claims, err := jwt.ParseToken(token)
 		if err != nil {
@@ -30,7 +29,6 @@ func JWTAuth() gin.HandlerFunc {
 
 		c.Set(utils.Claims, claims)
 		c.Set(utils.UserID, claims.UserID)
-
 
 		c.Next()
 	}
