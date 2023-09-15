@@ -36,6 +36,7 @@ type User struct {
 	LastTime time.Time `json:"lastTime"`
 	//Roles    []AuthRole `gorm:"many2many:user_roles;"`
 
+
 	Blogs    []Blog
 	Comments []Comment
 	Likes    []Like

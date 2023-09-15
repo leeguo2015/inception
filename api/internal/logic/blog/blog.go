@@ -43,9 +43,12 @@ func Delete(blogID uint, UserID uint) error {
 	err := global.DB.Select(clause.Associations).Delete(blog).Error
 	if err != nil {
 		return fmt.Errorf("delete blog failed %s", err)
+
 	}
 	return nil
 }
+
+
 
 //方案。 1.直接更新所有内容， 2.局部更新，（1）更新标签，（2）内容/标题/
 
@@ -61,6 +64,7 @@ func Update(UserId uint, blog *model.Blog, tags []*model.Tag) error {
 	return nil
 }
 
+
 func Get(UserId uint) (model.Blog, error) {
 	blog := model.NewBlog()
 	if global.DB.Where("id = ?", UserId).First(blog).Error == gorm.ErrRecordNotFound {
@@ -68,3 +72,4 @@ func Get(UserId uint) (model.Blog, error) {
 	}
 	return *blog, nil
 }
+

@@ -7,6 +7,7 @@ import (
 	"inception/api/internal/utils/jwt"
 
 	"github.com/gin-gonic/gin"
+
 )
 
 func JWTAuth() gin.HandlerFunc {
@@ -18,14 +19,17 @@ func JWTAuth() gin.HandlerFunc {
 			//c.Next()
 			return
 		}
+
 		claims, err := jwt.ParseToken(token)
 		if err != nil {
 			response.FailWithMessage("鉴权失败请重新登录", c)
 			c.Abort()
 			return
 		}
+
 		c.Set(utils.Claims, claims)
 		c.Set(utils.UserID, claims.UserID)
+
 		c.Next()
 	}
 }

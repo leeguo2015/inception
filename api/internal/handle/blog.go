@@ -34,6 +34,7 @@ func BlogAdd(c *gin.Context) {
 	}
 	response.Ok(c)
 
+
 }
 
 func BlogDelete(c *gin.Context) {
