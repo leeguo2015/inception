@@ -13,18 +13,18 @@ type CommentType string
 var CommentTypeBlog CommentType = "blog"
 var CommentTypeComment CommentType = "comment"
 
-func CommentAdd(commentType CommentType, Comtent string, UserID, OwnerID uint) error {
+func CommentAdd(commentType CommentType, content string, userID, ownerID uint) error {
 	comment := new(model.Comment)
 	switch commentType {
 	case CommentTypeBlog:
-		comment.BlogID = OwnerID
+		comment.BlogID = ownerID
 	case CommentTypeComment:
-		comment.ParentID = OwnerID
+		comment.ParentID = ownerID
 	default:
 		return fmt.Errorf("unsupported comment type %s", commentType)
 	}
-	comment.Content = Comtent
-	comment.UserID = UserID
+	comment.Content = content
+	comment.UserID = userID
 
 	if err := global.DB.Create(comment).Error; err != nil {
 		return err
@@ -32,9 +32,10 @@ func CommentAdd(commentType CommentType, Comtent string, UserID, OwnerID uint) e
 	return nil
 }
 
-func CommentDelete(CommentID uint) error {
+func CommentDelete(CommentID uint, userID uint) error {
 	comment := new(model.Comment)
 	comment.ID = CommentID
+	comment.UserID = userID
 	err := global.DB.Select(clause.Associations).Delete(comment).Error
 	if err != nil {
 		return fmt.Errorf("delete comment failed %s", err)
@@ -42,7 +43,6 @@ func CommentDelete(CommentID uint) error {
 	return nil
 
 }
-
 
 func CommentGet(blogID uint, start, limit int) ([]model.Comment, int64, error) {
 	comments := []model.Comment{}
