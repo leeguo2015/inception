@@ -2,41 +2,40 @@ package blog
 
 import (
 	"fmt"
-	"inception/api/internal/global"
+	. "inception/api/internal/global"
 	"inception/api/internal/model"
-
-	"gorm.io/gorm/clause"
 )
 
-type CommentType string
-
-var CommentTypeBlog CommentType = "blog"
-var CommentTypeComment CommentType = "comment"
-
-func CommentAdd(commentType CommentType, content string, userID, ownerID uint) error {
+func CommentAdd(commentType model.CommentType, content string, blogID, userID, ownerID uint) error {
 	comment := new(model.Comment)
+	comment.BlogID = blogID
+	comment.Content = content
+	comment.UserID = userID
+	comment.CommentType = commentType
 	switch commentType {
-	case CommentTypeBlog:
-		comment.BlogID = ownerID
-	case CommentTypeComment:
+	case model.CommentTypeBlog:
+		// comment.BlogID = ownerID
+	case model.CommentTypeComment:
 		comment.ParentID = ownerID
 	default:
 		return fmt.Errorf("unsupported comment type %s", commentType)
 	}
-	comment.Content = content
-	comment.UserID = userID
 
-	if err := global.DB.Create(comment).Error; err != nil {
+	if err := DB.Create(comment).Error; err != nil {
 		return err
+	}
+	if commentType == model.CommentTypeComment {
+		var parent model.Comment
+		DB.Model(&parent).Where("ID = ?", ownerID).First(&parent)
+		parent.Replies = append(parent.Replies, comment.ID)
+		DB.Save(&parent)
 	}
 	return nil
 }
 
 func CommentDelete(CommentID uint, userID uint) error {
 	comment := new(model.Comment)
-	comment.ID = CommentID
-	comment.UserID = userID
-	err := global.DB.Select(clause.Associations).Delete(comment).Error
+	err := DB.Where("id = ? AND user_id = ?", CommentID, userID).Delete(comment).Error
 	if err != nil {
 		return fmt.Errorf("delete comment failed %s", err)
 	}
@@ -49,15 +48,14 @@ func CommentGet(blogID uint, start, limit int) ([]model.Comment, int64, error) {
 	total := int64(0)
 
 	// 查询符合条件的评论
-	err := global.DB.Where("blog_id = ?", blogID).Offset(start).Limit(limit).Find(&comments).Error
+	err := DB.Where("blog_id = ?", blogID).Offset(start).Limit(limit).Find(&comments).Error
 
 	if err != nil {
 		return nil, total, err
 	}
 
 	// 查询总评论数
-
-	err = global.DB.Model(&model.Comment{}).Where("blog_id = ?", blogID).Count(&total).Error
+	err = DB.Model(&model.Comment{}).Where("blog_id = ?", blogID).Count(&total).Error
 
 	if err != nil {
 		return nil, total, err

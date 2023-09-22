@@ -3,13 +3,12 @@ package internal
 import (
 	"inception/api/internal/global"
 	"inception/api/internal/middleware"
-	_ "inception/api/internal/model"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Start() {
-	// model.AutoMigrate()
+	// autoMigrate()
 
 	global.Log.Info("Starting Inception API")
 	gin.SetMode(gin.ReleaseMode)
