@@ -35,8 +35,6 @@ func CommentAdd(commentType model.CommentType, content string, blogID, userID, o
 
 func CommentDelete(CommentID uint, userID uint) error {
 	comment := new(model.Comment)
-	// comment.ID = CommentID
-	// comment.UserID = userID
 	err := DB.Where("id = ? AND user_id = ?", CommentID, userID).Delete(comment).Error
 	if err != nil {
 		return fmt.Errorf("delete comment failed %s", err)
