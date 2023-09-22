@@ -4,8 +4,12 @@ import (
 	"inception/api/internal/global"
 
 	"github.com/google/uuid"
-
 )
+
+type CommentType string
+
+var CommentTypeBlog CommentType = "blog"
+var CommentTypeComment CommentType = "comment"
 
 type (
 	Tag struct {
@@ -14,7 +18,6 @@ type (
 		Name string `gorm:"not null;type:varchar(48);uniqueIndex"`
 		BaseTime
 		Blogs []Blog `gorm:"many2many:blog_tags;" json:"-"`
-
 	}
 
 	Blog struct {
@@ -23,7 +26,6 @@ type (
 		Uuid   uuid.UUID `json:"uuid" gorm:"index;column:uuid"`
 		UserID uint      `gorm:"not null"`
 		User   User      `gorm:"foreignKey:UserID" json:"-"`
-
 
 		Title   string `gorm:"not null;type:varchar(48)"`
 		Content string ` gorm:"not null;type:text"`
@@ -35,13 +37,16 @@ type (
 
 	Comment struct {
 		Base
-		UserID   uint
-		User     User `json:"-" gorm:"foreignKey:UserID"`
-		BlogID   uint
-		Blog     Blog      `gorm:"foreignKey:BlogID"`
-		Content  string    `gorm:"not null;type:varchar(512)"`
-		ParentID uint      // 表示父评论的ID
-		Replies  []Comment `gorm:"foreignkey:ParentID"` // 子评论，即多个评论的评论
+		UserID uint
+		User   User `json:"-" gorm:"foreignKey:UserID"`
+
+		BlogID uint
+		Blog   Blog `json:"-" gorm:"foreignKey:BlogID"`
+
+		Content     string      `gorm:"not null;type:varchar(512)"`
+		ParentID    uint        // 表示父评论的ID
+		CommentType CommentType `gorm:"not null;type:varchar(16)"`
+		Replies     []uint      `gorm:"json"` // 子评论，即多个评论的评论
 		BaseTime
 	}
 
@@ -87,4 +92,3 @@ func BlogMigrate() error {
 	}
 	return nil
 }
-

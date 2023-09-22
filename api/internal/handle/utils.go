@@ -1,13 +1,14 @@
 package handle
 
 import (
-	"github.com/gin-gonic/gin"
 	"inception/api/internal/global"
 	"inception/api/internal/response"
 	"inception/api/internal/utils/captcha"
+
+	"github.com/gin-gonic/gin"
 )
 
-func Captcha(c *gin.Context) {
+func CaptchaUser(c *gin.Context) {
 	b := new(captcha.BaseApi)
 	id, b64, err := b.Captcha()
 	if err != nil {

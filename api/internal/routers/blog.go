@@ -8,7 +8,7 @@ import (
 
 func Blog(route *gin.RouterGroup) {
 	blogGroup := route.Group("/blog")
-	CommentGroup := route.Group("/Comment")
+	CommentGroup := route.Group("/comment")
 	Info(blogGroup)
 	Comment(CommentGroup)
 }
@@ -17,14 +17,14 @@ func Blog(route *gin.RouterGroup) {
 
 func Info(route *gin.RouterGroup) {
 	route.POST("/", handle.BlogAdd)
-	route.GET("/:blogID", handle.BlogGet)
-	route.DELETE("/:blogID", handle.BlogDelete)
-	route.PUT("/:blogID", handle.BlogUpdate)
+	route.GET("/:blog_id", handle.BlogGet)
+	route.DELETE("/:blog_id", handle.BlogDelete)
+	route.PUT("/:blog_id", handle.BlogUpdate)
 }
 
 func Comment(route *gin.RouterGroup) {
-	route.POST("/:blogID", handle.CommentAdd)
-	route.GET("/:blogID", handle.CommentGet)
-	route.DELETE("/:blogID", handle.CommentDelete)
+	route.POST("/:blog_id", handle.CommentAdd)
+	route.GET("/:blog_id", handle.CommentGet)
+	route.DELETE("/:blog_id", handle.CommentDelete)
 	// route.PUT("/:blogID", handle.CommentUpdate)
 }
