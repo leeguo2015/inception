@@ -16,6 +16,11 @@
   margin: 0;
 }
 
+.blog-container{
+    margin: 0 auto;
+    height: 100%;
+    width: 100%;
+}
 /* a,
 .green {
   text-decoration: none;
