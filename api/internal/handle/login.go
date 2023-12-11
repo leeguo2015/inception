@@ -1,11 +1,12 @@
 package handle
 
 import (
-	"github.com/gin-gonic/gin"
 	"inception/api/internal/global"
 	"inception/api/internal/logic/users"
 	"inception/api/internal/response"
 	"inception/api/internal/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 // Login

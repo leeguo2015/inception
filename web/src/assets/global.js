@@ -8,8 +8,11 @@ const store = createStore({
       user : {}
     }
   },
-  mutations: {
 
+  mutations: {
+    SET_USER(state, user) {
+      state.user = user;
+    }
   },
   actions: {
 
