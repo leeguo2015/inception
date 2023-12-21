@@ -14,7 +14,7 @@ import (
 //	@Description:
 //	@param c
 func Login(c *gin.Context) {
-	userName := c.PostForm("userName")
+	userName := c.PostForm("username")
 	password := c.PostForm("password")
 	// todo 暂时关闭验证码
 	//captcha := c.Param("captcha")
@@ -23,6 +23,7 @@ func Login(c *gin.Context) {
 	//	global.Log.Errorf("%s:验证码错误", userName)
 	//	response.HttpBadRequest("验证码错误", c)
 	//}
+	global.Log.Info("登录信息", userName, password)
 	if userName == "" || password == "" {
 		response.HttpBadRequest(utils.ErrParams, c)
 		return

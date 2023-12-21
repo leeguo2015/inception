@@ -2,7 +2,7 @@
  * @Author: leeguo leeguo2015@163.com
  * @Date: 2023-09-16 23:43:26
  * @LastEditors: leeguo leeguo2015@163.com
- * @LastEditTime: 2023-11-25 20:48:52
+ * @LastEditTime: 2023-12-22 00:08:59
  * @FilePath: \inception\web\src\views\LoginView.vue
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -21,15 +21,20 @@
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">登录</el-button>
                         <!-- <el-button>注册</el-button> -->
+              
                     </el-form-item>
                 </el-form>
 
             </div>
         </div>
+        <button @click="showMessageBox">显示提醒框</button>
     </div>
 </template>
+<script>
+import { ElMessageBox } from 'element-plus';
 
-<script >
+import { ElMessage } from 'element-plus';
+
 
 export default {
     data() {
@@ -37,22 +42,33 @@ export default {
             msg: '',
             input_stayle: "",
             form: {
-                name: '',
-                password: '',
+                name: 'leeguo',
+                password: '123456',
             }
         }
     },
     methods: {
         onSubmit() {
-            this.$api.post("/user/login", 
-            {"userName":this.form.name,
-             "password": this.form.password}
-             ).then(res => {
-                console.log(res) // 返回的是数组包裹的响应信息[res1,res2]
+            const formData = new FormData();
+            formData.append('username', this.form.name);
+            formData.append('password', this.form.password);
+            this.$api.post("/user/login", formData
+            ).then(res => {
+                if (res.code != "200") {
+                    this.showMessageBox(res.msg)
+                }
             }).catch(err => {
-                console.log(err)
+                
             })
-        }
+        },
+        showMessageBox(msg) {
+      ElMessageBox.alert(msg, '登录失败', {
+        confirmButtonText: '确定',
+        type: 'error'
+      });
+    }
+
+
     }
 }
 
@@ -102,4 +118,5 @@ export default {
     align-items: center;
     /* 垂直居中 */
 
-}</style>
+}
+</style>
