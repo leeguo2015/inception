@@ -1,20 +1,10 @@
 
-<script setup>
-
-</script>
-
 <template>
   <div class="common-layout">
     <el-container>
       <el-header class="non-padding"></el-header>
       <el-main></el-main>
     </el-container>
-
-    <!-- <el-row :gutter="20">
-  <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="16"><div class="grid-content bg-purple"></div></el-col>
-  <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
-</el-row> -->
   </div>
 </template>
 

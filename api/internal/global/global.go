@@ -1,11 +1,12 @@
 package global
 
 import (
+	"inception/api/config"
+	"time"
+
 	"github.com/redis/go-redis/v9"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
-	"inception/api/config"
-	"time"
 )
 
 var (
@@ -18,7 +19,7 @@ var (
 	JwtTimout = 30 * 24 * time.Hour
 )
 
-const (
+var (
 	//ConfigFilePath = "configs/api.yaml"
 	ConfigFilePath = "configs/inceptionApi.yaml"
 )

@@ -21,6 +21,6 @@ logger:
   log-in-console: true
 
 oss:
-  secret_id:"secret"
-  secret_secret:"secret"
-  url:"http://localhost"
+  secret_id: "secret"
+  secret_secret: "secret"
+  url: "http://localhost"
