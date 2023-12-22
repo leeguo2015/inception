@@ -1,8 +1,9 @@
 package config
 
 import (
-	"gopkg.in/yaml.v2"
 	"os"
+
+	"gopkg.in/yaml.v2"
 )
 
 type Config struct {
@@ -10,6 +11,7 @@ type Config struct {
 	Logger Logger `yaml:"logger"`
 	System System `yaml:"system"`
 	Redis  Redis  `yaml:"redis"`
+	Oss    Oss    `yaml:"oss"`
 }
 
 func New() *Config {
