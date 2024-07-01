@@ -9,7 +9,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
-import Publish from '../views/blog/Publish.vue'
+import Publish from '../components/blog/Publish.vue'
+import BlogDtail from '../components/blog/detail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,23 +21,28 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path:'/login',
-      name: 'login',
-      component: LoginView
-    },
-        {
-      path:'/login',
+      path: '/login',
       name: 'login',
       component: LoginView
     },
     {
-      path:'/blog_add',
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    {
+      path: '/blog_add',
       name: 'blog_add',
       component: Publish
-    },    {
-      path:'/search',
+    }, {
+      path: '/search',
       name: 'search',
-      component: Publish
+      // component: Publish
+    },
+    {
+      path: '/blog/detail/:id',
+      name: 'search',
+      component: BlogDtail
     }
   ]
 })

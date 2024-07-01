@@ -8,10 +8,15 @@
 -->
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import broadside  from './Broadside.vue'  
 </script>
 <template>
-<div class="HallContent">
-    <RouterView />
+<div class="HallContent" >  
+    <broadside/>
+    <!-- <RouterView /> -->
+    <!-- <div class="sub-content">
+      <router-view name="subContent"></router-view>
+    </div> -->
 </div>
 </template>
 
@@ -19,10 +24,7 @@ import { RouterLink, RouterView } from 'vue-router'
 .HallContent {
   box-sizing: border-box;
   padding: auto;
-  margin-top: 54px;
-  background-color: rgba(117, 177, 117,0.2);
-  height: 100vh;
-  width: 100vw;
+
 }
 </style>
 
