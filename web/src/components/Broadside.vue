@@ -1,69 +1,86 @@
 <template>
-  <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-    <el-radio-button :value="false">expand</el-radio-button>
-    <el-radio-button :value="true">collapse</el-radio-button>
-  </el-radio-group>
-  <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      :collapse="isCollapse"
-      @open="handleOpen"
-      @close="handleClose"
-  >
-    <el-sub-menu index="1">
-      <template #title>
-        <el-icon><location /></el-icon>
-        <span>Navigator One</span>
-      </template>
-      <el-menu-item-group>
-        <template #title><span>Group One</span></template>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item two</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="1-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-sub-menu index="1-4">
-        <template #title><span>item four</span></template>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item index="2">
-      <el-icon><icon-menu /></el-icon>
-      <template #title>Navigator Two</template>
-    </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <el-icon><document /></el-icon>
-      <template #title>Navigator Three</template>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <el-icon><setting /></el-icon>
-      <template #title>Navigator Four</template>
-    </el-menu-item>
-  </el-menu>
+  <div class="broadside-main">
+    <div v-for="tag in data" :key="tag.id">
+      <!-- :type="activeList.value.includes(tag.id)? 'info' : 'sucess'"  -->
+      <!-- :type="tag? 'info' : 'sucess'"  -->
+
+      <div class="broad-tag">
+        <el-tag size="small" 
+        @click="addActive(tag.id)" >
+          {{ tag.content }}
+
+        </el-tag>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from '@element-plus/icons-vue'
+<script setup>
+import { ref,computed } from 'vue'
+let data = ref([
+  {
+    "id": 1,
+    "content": "编程",
+    "created_at": "2023-04-05T10:00:00Z",
+    "is_hot": true,
+    "description": "涵盖各种编程语言和技术的讨论"
+  },
+  {
+    "id": 2,
+    "content": "人工智能",
+    "created_at": "2023-06-9T15:30:00Z",
+    "is_hot": false,
+    "description": "探讨AI最新进展和应用"
+  },
+  {
+    "id": 3,
+    "content": "数据分析",
+    "created_at": "2023-03-18T08:45:00Z",
+    "is_hot": true,
+    "description": "关于数据挖掘、统计分析的技巧和案例"
+  },
+  {
+    "id": 4,
+    "content": "Web开发",
+    "created_at": "2023-01-20T12:00:00Z",
+    "is_hot": false,
+    "description": "前端与后端技术分享，包括框架、库的使用"
+  },
+  {
+    "id": 5,
+    "content": "软件工程",
+    "created_at": "2023-02-24T17:15:00Z",
+    "is_hot": true,
+    "description": "软件开发的最佳实践和项目管理"
+  }
+])
+let activeList = ref([])
 
-const isCollapse = ref(true)
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+const addActive = (id) => {
+  let index = activeList.value.indexOf(id);
+  if (index > -1) {
+    activeList.value.splice(index, 1)
+  } else {
+    activeList.value.push(id)
+  }
 }
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+
 </script>
 
 <style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+.broadside-main {
+  margin: 40px 20px;
+  padding: 1em;
+  /* width: 100%; */
+  min-height: 30vh;
+  /* height: 100vh; */
+  /* background-color: rgb(35, 37, 36, 0.7); */
+}
+
+.broad-tag {
+  margin-top: 5px;
+}
+.active{
+  background-color: red;
 }
 </style>

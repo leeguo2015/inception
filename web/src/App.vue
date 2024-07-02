@@ -9,17 +9,9 @@
 
 
 <template >
-  <div id="main">
-    <div id="top-menu">
-      <Menu />
-    </div>
-
-    <div id="b-hall">
+ 
+ <Menu></Menu>
       <Hall/>
-    </div>
-
-
-  </div>
 </template>
 
 <script setup>
@@ -46,46 +38,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-#main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction:column;
-  height: 100vh;
-  /* 设置容器的高度为视口高度，以便看到居中效果 */
-  background-color: #ffffff;
-  background-image: url("./assets/texture.png");
-  
-
-}
-
-#top-menu {
-position: fixed;
-top: 0; /* 设置menu的顶部距离为0 */
-left: 0; /* 设置menu的左边距离为0 */
-width: 100%; /* 设置menu的宽度为100% */
-height: 45px; /* 设置menu的高度为50px */
-display: flex;
-justify-content: center;
-align-items: center;
-/* background-image: url("./assets/texture.png"); */
-
-/* !!!important background-color: rgba(117, 177, 117,0.2); */
-
-}
-
-/* 
-@media (max-width: 768px) {
- .top-menu {
-   height: 40px; 
- }
-} */
-
-#b-hall{
-  margin-top: 45px;
-  /* background-color: rgba(117, 177, 117,0.2); */
-  height: 100vh;
-  width: 100vw;
-}
-
 </style>

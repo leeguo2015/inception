@@ -79,7 +79,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .input-item {
   margin: 30px 0px;
 }

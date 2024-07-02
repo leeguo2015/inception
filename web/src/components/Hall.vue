@@ -10,9 +10,19 @@
 
 <!--</script>-->
 <template>
-<div class="HallContent" >  
-    <broadside v-if="!$route.path.includes('detail')"/>
-<!--     <RouterView />-->
+<div class="hall-main " >  
+  <div class="common-layout">
+    <el-container>
+      <el-aside id="broadside" v-if="!$route.path.includes('detail')"  >
+         <Broadside v-if="!$route.path.includes('detail')"/>
+      </el-aside>
+
+      <el-main>
+         <RouterView />
+        </el-main>
+    </el-container>
+  </div>
+
     <!-- <div class="sub-content">
       <router-view name="subContent"></router-view>
     </div> -->
@@ -21,15 +31,17 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { RouterLink, RouterView } from 'vue-router'
-import broadside  from './Broadside.vue'
+import Broadside  from './Broadside.vue'
 
 const route = useRoute();
 </script>
 <style> 
-.HallContent {
-  box-sizing: border-box;
-  padding: 0.5em;
-
+.hall-main {
+overflow: auto;
+/* display: flex; */
+}
+#broadside{
+  width: 180px;
 }
 </style>
 

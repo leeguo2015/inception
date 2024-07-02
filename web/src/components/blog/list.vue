@@ -1,5 +1,5 @@
 <template>
-    <div class="blog-list">
+    <div class="list">
       <div v-for="post in posts" :key="post.id" class="blog-post">
         <h2>{{ post.title }}</h2>
         <p>作者: {{ post.author }}</p>
@@ -49,15 +49,17 @@
   </script>
   
   <style scoped>
-  .blog-list {
+  .list {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    padding-top: 1rem;
   }
   
   .blog-post {
     border: 1px solid #ccc;
     padding: 1rem;
     border-radius: 5px;
+    width: 100%;
   }
   </style>

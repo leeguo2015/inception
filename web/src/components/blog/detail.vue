@@ -79,8 +79,7 @@
   /* 在此处添加自定义样式 */
   .blog-detail {
     padding: 2rem;
-    color: black;
-    //background-color: aqua;
+    /* background-color: aqua; */
   }
   .meta-info {
     margin-bottom: 1rem;
