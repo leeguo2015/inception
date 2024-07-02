@@ -1,0 +1,1 @@
+scp -r ./api root@82.157.146.190:/root/code/inception

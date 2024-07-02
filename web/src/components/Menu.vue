@@ -10,25 +10,31 @@
   <el-menu default-active="/" class="el-menu-demo menu-padding" mode="horizontal" text-color="#070707" :ellipsis="false"
     @select="handleSelect">
 
-    <el-menu-item index="home" @click="gotoUrl('/')" class="menu-ico">
-      <el-icon size="1em" >
+    <el-menu-item index="home" @click="gotoUrl('/list')" class="menu-ico">
+      <el-icon size="1.5em">
         <House />
       </el-icon>
-      主页
+      <div class="menu-ico-font">主页</div>
     </el-menu-item>
 
-    <el-menu-item index="blog_list" @click="gotoUrl('blog_list')"  class="menu-ico">
-      <el-icon size="1em">
+    <el-menu-item index="blog_list" @click="gotoUrl('/list/blog')"  class="menu-ico">
+      <el-icon size="1.5em">
         <Cherry />
       </el-icon>
-      技术
+      <div class="menu-ico-font">技术</div>
     </el-menu-item>
 
-    <el-menu-item index="article" @click="gotoUrl('article')"  class="menu-ico">
-      <el-icon size="1em" >
+    <el-menu-item index="article" @click="gotoUrl('/list/article')"  class="menu-ico">
+      <el-icon size="1.5em">
         <HotWater />
       </el-icon>
-      随笔
+      <div class="menu-ico-font">随笔</div>
+    </el-menu-item>
+    <el-menu-item index="article" @click="gotoUrl('/blog/detail/1')"  class="menu-ico">
+      <el-icon size="1.5em">
+        <IceTea />
+      </el-icon>
+      <div class="menu-ico-font">详情</div>
     </el-menu-item>
     <!-- <el-menu-item index="/blog_add" @click="gotoUrl('blog_add')">
      发布博客
@@ -38,7 +44,7 @@
     </el-menu-item> -->
     <div class="flex-grow" />
     <el-menu-item index="/search" @click="gotoUrl('search')" collapse-close-icon="Search"  class="menu-ico">
-      <el-icon size="1em" >
+      <el-icon size="1.5em" >
         <Search />
       </el-icon>
       搜索
@@ -91,7 +97,7 @@ export default {
 <style>
 .menu-padding {
   width: 100%;
-  border-bottom: solid 0px var(--el-border-color-base) !important;
+  //border-bottom: solid 0px var(--el-border-color-base) !important;
   background-color: rgba(0, 0, 0, 0) !important;
 
 }
@@ -101,6 +107,12 @@ export default {
 }
 
 .menu-ico {
+  font-size:2em;
   margin-top: 0.5rem;
+}
+.menu-ico-font{
+  font-size:1.2em;
+  margin: 0 0.5rem;
+  //font-family:"Arial Narrow";
 }
 </style>

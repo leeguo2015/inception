@@ -11,7 +11,7 @@ func TestUploadFiileToCos(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	global.ConfigFilePath = "/Users/v_liguo/goPath/inception/configs/inceptionApi.yaml"
+	global.ConfigFilePath = "../../../configs/inceptionApi.yaml"
 	global.InitConfig()
 	SecretID := global.Config.Oss.SecretID
 	SecretKey := global.Config.Oss.SecretKey

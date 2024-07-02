@@ -80,7 +80,7 @@
   .blog-detail {
     padding: 2rem;
     color: black;
-    background-color: aqua;
+    //background-color: aqua;
   }
   .meta-info {
     margin-bottom: 1rem;

@@ -1,3 +1,11 @@
+/*
+ * @Author: leeguo leeguo2015@163.com
+ * @Date: 2023-12-22 23:36:39
+ * @LastEditors: leeguo leeguo2015@163.com
+ * @LastEditTime: 2023-12-22 23:48:24
+ * @FilePath: \inception\api\internal\utils\upload.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package utils
 
 import (
@@ -10,7 +18,6 @@ import (
 	"time"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
-	"github.com/tencentyun/cos-go-sdk-v5/debug"
 )
 
 type TencentOSSUploader struct {
@@ -46,13 +53,13 @@ func UploadFileToCos(fileName string, fileBytes []byte, BucketURL string, secret
 			// 环境变量 COS_SECRETKEY 表示用户的 SecretKey，登录访问管理控制台查看密钥，https://console.cloud.tencent.com/cam/capi
 			SecretKey: secretKey,
 			// Debug 模式，把对应 请求头部、请求内容、响应头部、响应内容 输出到标准输出
-			Transport: &debug.DebugRequestTransport{
-				RequestHeader: true,
-				// Notice when put a large file and set need the request body, might happend out of memory error.
-				RequestBody:    true,
-				ResponseHeader: true,
-				ResponseBody:   true,
-			},
+			// Transport: &debug.DebugRequestTransport{
+			// 	RequestHeader: true,
+			// 	// Notice when put a large file and set need the request body, might happend out of memory error.
+			// 	RequestBody:    true,
+			// 	ResponseHeader: true,
+			// 	ResponseBody:   true,
+			// },
 		},
 	})
 

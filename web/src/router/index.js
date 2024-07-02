@@ -7,10 +7,11 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
+import HomeView from '../views/home.vue'
+import LoginView from '../views/login.vue'
 import Publish from '../components/blog/Publish.vue'
-import BlogDtail from '../components/blog/detail.vue'
+import BlogDetail from '../components/blog/detail.vue'
+import list from '../components/blog/list.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,7 +43,18 @@ const router = createRouter({
     {
       path: '/blog/detail/:id',
       name: 'search',
-      component: BlogDtail
+      component: BlogDetail
+    },
+    {
+      path: '/list/:blogType',
+      name: 'listType',
+      component: list
+    }
+    ,
+    {
+      path: '/list',
+      name: 'list',
+      component: list
     }
   ]
 })

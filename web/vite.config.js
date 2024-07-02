@@ -9,6 +9,12 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
+    },
+  },
+  build: {
+    rollupOptions: {
+      external: ['vuex']
     }
-  }
+  },
+  hot: true,//自动保存
 })

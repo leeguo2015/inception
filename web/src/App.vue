@@ -15,9 +15,9 @@
     </div>
 
     <div id="b-hall">
-
+      <Hall/>
     </div>
-    <Hall/>
+
 
   </div>
 </template>

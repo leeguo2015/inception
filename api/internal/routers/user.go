@@ -18,3 +18,7 @@ func Logon(route *gin.RouterGroup) {
 func Login(route *gin.RouterGroup) {
 	route.POST("/login", handle.Login)
 }
+
+func Get(route *gin.RouterGroup){
+	route.GET("", handle.GetUsers)
+}
