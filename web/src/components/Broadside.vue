@@ -1,14 +1,11 @@
 <template>
   <div class="broadside-main">
     <div v-for="tag in data" :key="tag.id">
-      <!-- :type="activeList.value.includes(tag.id)? 'info' : 'sucess'"  -->
-      <!-- :type="tag? 'info' : 'sucess'"  -->
-
       <div class="broad-tag">
         <el-tag size="small" 
+        :type="activeList.includes(tag.id)? 'success' : 'info'"
         @click="addActive(tag.id)" >
           {{ tag.content }}
-
         </el-tag>
       </div>
     </div>
@@ -16,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref,computed } from 'vue'
+import { ref,computed,defineEmits } from 'vue'
 let data = ref([
   {
     "id": 1,
@@ -55,6 +52,7 @@ let data = ref([
   }
 ])
 let activeList = ref([])
+const emit = defineEmits(["TagIDList"]);
 
 const addActive = (id) => {
   let index = activeList.value.indexOf(id);
@@ -63,6 +61,7 @@ const addActive = (id) => {
   } else {
     activeList.value.push(id)
   }
+  emit('TagIDList', activeList.value);
 }
 
 </script>

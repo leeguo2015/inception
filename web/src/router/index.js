@@ -19,7 +19,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      // component: HomeView
+      component: list
     },
     {
       path: '/login',
@@ -48,7 +49,8 @@ const router = createRouter({
     {
       path: '/list/:blogType',
       name: 'listType',
-      component: list
+      component: list,
+      props: true // 允许通过路由传递 props
     }
     ,
     {

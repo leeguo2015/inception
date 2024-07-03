@@ -14,7 +14,7 @@
   <div class="common-layout">
     <el-container>
       <el-aside id="broadside" v-if="!$route.path.includes('detail')"  >
-         <Broadside v-if="!$route.path.includes('detail')"/>
+         <Broadside v-if="!$route.path.includes('detail')" @TagIDList="debouncedUpdateData" />
       </el-aside>
 
       <el-main>
@@ -31,9 +31,14 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { RouterLink, RouterView } from 'vue-router'
+import { debounce } from 'lodash';
 import Broadside  from './Broadside.vue'
-
 const route = useRoute();
+
+const handleUpdateData = (newData) => {
+  console.log('handleUpdateData', newData);
+};
+const debouncedUpdateData = debounce(handleUpdateData, 1000); // 300ms 的防抖时间
 </script>
 <style> 
 .hall-main {
