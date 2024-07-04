@@ -28,11 +28,6 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/login',
-      name: 'login',
-      component: LoginView
-    },
-    {
       path: '/blog_add',
       name: 'blog_add',
       component: Publish
@@ -41,23 +36,32 @@ const router = createRouter({
       name: 'search',
       // component: Publish
     },
+    
+    {
+      path: '/list/',
+      name: 'list',
+      component: list,
+      children: [
+        {
+          path: ':blogType',
+          name: 'listType',
+          component: list,
+          props: true // 允许通过路由传递 props
+        }
+      ]
+    },
     {
       path: '/blog/detail/:id',
       name: 'search',
       component: BlogDetail
     },
-    {
-      path: '/list/:blogType',
-      name: 'listType',
-      component: list,
-      props: true // 允许通过路由传递 props
-    }
-    ,
-    {
-      path: '/list',
-      name: 'list',
-      component: list
-    }
+    // {
+    //   path: '/list/:blogType',
+    //   name: 'listType',
+    //   component: list,
+    //   props: true // 允许通过路由传递 props
+    // }
+
   ]
 })
 
