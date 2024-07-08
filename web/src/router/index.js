@@ -11,16 +11,17 @@ import HomeView from '../views/home.vue'
 import LoginView from '../views/login.vue'
 import Publish from '../components/blog/Publish.vue'
 import BlogDetail from '../components/blog/detail.vue'
-import list from '../components/blog/list.vue'
+// import list from '../components/blog/list.vue'
+import Hall from '../components/Hall.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    // 之前页面。未完善
     {
       path: '/',
       name: 'home',
-      // component: HomeView
-      component: list
+      redirect: '/list'
     },
     {
       path: '/login',
@@ -34,18 +35,18 @@ const router = createRouter({
     }, {
       path: '/search',
       name: 'search',
-      // component: Publish
+      component: Publish
     },
-    
+
     {
-      path: '/list/',
+      path: '/list',
       name: 'list',
-      component: list,
+      component: Hall,
       children: [
         {
           path: ':blogType',
           name: 'listType',
-          component: list,
+          component: Hall,
           props: true // 允许通过路由传递 props
         }
       ]
@@ -55,13 +56,6 @@ const router = createRouter({
       name: 'search',
       component: BlogDetail
     },
-    // {
-    //   path: '/list/:blogType',
-    //   name: 'listType',
-    //   component: list,
-    //   props: true // 允许通过路由传递 props
-    // }
-
   ]
 })
 

@@ -8,15 +8,21 @@
 -->
 
 
-<template >
- 
- <Menu></Menu>
-      <Hall/>
+<template>
+  <Menu></Menu>
+  <el-container style="overflow: auto;">
+    <el-main>
+      <!-- <RouterView /> -->
+      <router-view v-slot="{ Component }">
+        <transition appear mode="out-in">
+          <component :is="Component" key="$route.fullPath" />
+        </transition>
+      </router-view>
+    </el-main>
+  </el-container>
 </template>
 
 <script setup>
-
-import Hall from './components/Hall.vue';
 import Menu from './components/Menu.vue'
 import { onMounted } from 'vue'
 import { useStore } from 'vuex' // 引入useStore 方法
@@ -24,8 +30,8 @@ import { useStore } from 'vuex' // 引入useStore 方法
 function checkUser() {
   const store = useStore();
   const user = localStorage.getItem('user') || sessionStorage.getItem('user');
-  console.log("store.state.user:", store.state.user)
-  console.log("user", user)
+  // console.log("store.state.user:", store.state.user)
+  // console.log("user", user)
   if (user) {
     store.commit('SET_USER', user);
   }
@@ -38,4 +44,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.route-transition-enter-active,
+.route-transition-leave-active {
+  transition: opacity 0.5s;
+}
+
+.route-transition-enter,
+.route-transition-leave-to {
+  opacity: 0;
+}
 </style>

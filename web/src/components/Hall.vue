@@ -10,11 +10,11 @@
   <div class="hall-main">
     <div class="common-layout">
       <el-container>
-        <el-aside id="broadside" v-if="!$route.path.includes('detail')">
-          <Broadside v-if="!$route.path.includes('detail')" @TagIDList="debouncedUpdateData" />
+        <el-aside id="broadside">
+          <Broadside @categoriesIDs="debouncedUpdateData" :categories:="categories" />
         </el-aside>
         <el-main>
-          <RouterView :sharedData="debouncedSharedData" />
+          <list :sharedData="debouncedSharedData" />
         </el-main>
       </el-container>
     </div>
@@ -22,12 +22,18 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref } from 'vue';
+// import { useRoute } from 'vue-router';
 import { debounce } from 'lodash';
 import Broadside from './Broadside.vue';
+import list from './blog/list.vue';
+import { get} from '@/assets/api';
+import { onMounted } from 'vue'
 
-const route = useRoute();
+
+
+// const route = useRoute();
+const categories = ref([]);
 const sharedData = ref([]);
 const debouncedSharedData = ref([]);
 let backendData = [
@@ -50,7 +56,6 @@ let backendData = [
     "title": "Vue 3 入坟指南",
     "author": "John Doe",
     "content": `如果在实际运行中发现防抖未生效，可能的原因有：
-
 确保事件触发：确认子组件Broadside确实有在适当的时候触发TagIDList事件，并且传递了预期的数据。
 Lodash的导入：确保lodash库已经正确导入到项目中。如果使用的是Vue CLI或Vite等构建工具，需要确认lodash已经被安装并且在你的项目中正确导入。
 作用域问题：虽然从代码上看不太可能出现这个问题，但理论上如果debounce调用不在正确的作用域内，可能导致handleUpdateData方法没有按预期工作。不过，基于您提供的代码片段，这一点看起来是正确的。
@@ -60,18 +65,31 @@ Lodash的导入：确保lodash库已经正确导入到项目中。如果使用�
   },
   // 更多文章...  
 ]
-debouncedSharedData.value= backendData;
+
+categories.value = [
+    {
+        "id": 2,
+        "name": "BUG反馈",
+        "content": "",
+        "brief": ""
+    },
+    {
+        "id": 5,
+        "name": "AskCat2",
+        "content": "",
+        "brief": ""
+    }
+]
+debouncedSharedData.value = backendData;
 
 const handleUpdateData = (newData) => {
-  // console.log('handleUpdateData', newData);
   sharedData.value = backendData;
-
 };
 
 const debouncedUpdateData = debounce((newData) => {
   handleUpdateData(newData);
-  debouncedSharedData.value.push(  {
-    "id": time.now(),
+  debouncedSharedData.value.push({
+    "id": Date.now(),
     "title": "Vue 5 ",
     "author": "John Doe",
     "content": "Vue 3 带来了许多新特性...",
@@ -80,26 +98,25 @@ const debouncedUpdateData = debounce((newData) => {
   console.log('debouncedSharedData.value', debouncedSharedData.value);
 }, 1000); // 1000ms 的防抖时间
 
-// watch(sharedData, () => {
-//   console.log('sharedData changed:', sharedData.value);
-// });
+const getCategory = () => {
+  get("category").then((res) => {
+    console.log('category', res.data);
+    // categoryList.value = res.data;
 
-import router from '@/router';
-
-router.afterEach((to, from) => {
-  console.log('Navigating from', from.fullPath, 'to', to.fullPath);
-  // Call your function here
-  // yourFunction();
-});
+  });
+}
+onMounted(() => {
+  getCategory()
+})
 
 </script>
-<style> 
+<style>
 .hall-main {
-overflow: auto;
-/* display: flex; */
+  overflow: auto;
+  /* display: flex; */
 }
-#broadside{
+
+#broadside {
   width: 180px;
 }
 </style>
-

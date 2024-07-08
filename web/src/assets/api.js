@@ -12,9 +12,11 @@ import axios from 'axios';
 import { ElMessage } from 'element-plus';
 // 创建一个 axios 实例，配置一些全局的请求设置
 const instance = axios.create({
-  baseURL: 'http://leeguo.top:8006/v1/api', // 设置接口的基础URL
+  // baseURL: 'http://leeguo.top:8006/v1/api', // 设置接口的基础URL
+  baseURL: 'http://124.223.114.178:8080/v1/api', // 设置接口的基础URL
+  // baseURL: 'http://127.0.0.1:8080/v1/api', // 设置接口的基础URL
   // baseURL: 'http://127.0.0.1:8008/v1/api', // 设置接口的基础URL
-  timeout: 5000, // 设置请求超时时间
+  timeout: 15000, // 设置请求超时时间
   // 在这里可以设置其他的请求配置，比如请求头等
 });
 
@@ -23,7 +25,6 @@ instance.interceptors.response.use(
   response => {
     // 这里可以进行其他的响应数据处理
     // 比如判断响应状态码，处理错误等
-
     // 只返回数据的部分
     return response.data;
   },
@@ -43,5 +44,7 @@ export function get(url, params) {
 export function post(url, data) {
   return instance.post(url, data);
 }
-
 // 可以继续封装其他类型的请求函数，比如 PUT、DELETE 等
+
+// export default instance;
+
