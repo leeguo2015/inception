@@ -23,7 +23,6 @@ const props = defineProps({
 });
 
 let activeList = ref([]);
-
 const addActive = (id) => {
   const index = activeList.value.indexOf(id);
   if (index > -1) {
