@@ -1,12 +1,14 @@
 <template>
   <div class="hall-main">
     <div class="common-layout">
-      <el-container>
+      <el-container >
         <el-aside id="broadside">
           <Broadside @categoriesIDs="debouncedUpdateData" :categories="categories"/>
         </el-aside>
-        <el-main>
+        <el-main >
+         <div id="blog-list">
           <list :sharedData="debouncedSharedData" />
+         </div>
         </el-main>
       </el-container>
     </div>
@@ -16,7 +18,7 @@
 <script setup>
 import { ref } from 'vue';
 import { debounce } from 'lodash';
-import Broadside from './Broadside.vue';
+import Broadside from './broadside.vue';
 import list from './blog/list.vue';
 import { get} from '@/assets/api';
 import { onMounted } from 'vue'
@@ -31,13 +33,14 @@ const getCategory = () => {
   });
 }
 const getBlogList = () => {
-  get("blog").then((res) => {
-    categories.value = res.data.list;
+  get("aritcle").then((res) => {
+    debouncedSharedData.value = res.data.list;
   });
 }
 
 onMounted(() => {
   getCategory()
+  getBlogList()
 })
 
 let backendData = []
@@ -52,7 +55,6 @@ const debouncedUpdateData = debounce((newData) => {
   // getBlogList()
 }, 1000); // 1000ms 的防抖时间
 
-
 </script>
 <style>
 .hall-main {
@@ -62,5 +64,12 @@ const debouncedUpdateData = debounce((newData) => {
 
 #broadside {
   width: 180px;
+}
+#blog-list{
+  height: calc(100vh - 60px);
+  padding-bottom: 10vh;
+}
+.el-main{
+  padding: 0 !important;
 }
 </style>
