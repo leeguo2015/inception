@@ -8,8 +8,21 @@
         <el-main >
          <div id="blog-list">
           <list :sharedData="debouncedSharedData" />
+
          </div>
+
         </el-main>
+        <el-footer>
+          <!-- 底部页码组件 -->
+<!--          <PageFooter />-->
+<!--          <el-pagination-->
+<!--              :page-size="20"-->
+<!--              :pager-count="11"-->
+<!--              layout="prev, pager, next"-->
+<!--              :total="1000"-->
+<!--          />-->
+        </el-footer>
+
       </el-container>
     </div>
   </div>
@@ -58,7 +71,7 @@ const debouncedUpdateData = debounce((newData) => {
 </script>
 <style>
 .hall-main {
-  overflow: auto;
+  //overflow: auto;
   /* display: flex; */
 }
 
@@ -66,10 +79,18 @@ const debouncedUpdateData = debounce((newData) => {
   width: 180px;
 }
 #blog-list{
-  height: calc(100vh - 60px);
-  padding-bottom: 10vh;
+  //height: calc(100vh - 60px);
+  //padding-bottom: 10vh;
 }
 .el-main{
   padding: 0 !important;
+}
+.content-wrap {
+  display: flex;
+  //height: calc(100vh - /* header和footer的高度 */);
+  height: calc(100vh - 70px);
+}
+.el-main {
+  overflow-y: auto; /* 允许内容区域滚动 */
 }
 </style>

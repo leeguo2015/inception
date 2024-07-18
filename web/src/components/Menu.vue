@@ -76,9 +76,10 @@
 </template>
 
 <script>
-// import { KnifeFork } from '@element-plus/icons-vue/dist/types';
+import {HotWater, House, IceTea, KnifeFork} from "@element-plus/icons-vue";
 
 export default {
+  components: {House, KnifeFork, IceTea, HotWater},
   data() {
     return {
     };

@@ -62,18 +62,18 @@ const formatText = (text) => {
 
 <style scoped>
 .list {
-  display: flex;
+  //display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding-top: 1rem;
   height: 100%;
-  display: auto;
+  //display: auto;
   /* overflow: auto; */
 }
 
 .blog-post {
   border: 1px solid #ccc;
   padding: 1rem;
+  margin: 1rem 0;
   border-radius: 5px;
   width: 100%;
 }
