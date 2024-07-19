@@ -9,8 +9,7 @@
 <template>
   <el-menu default-active="/" class="top-menu el-menu-demo menu-padding" mode="horizontal" text-color="#070707"
     :ellipsis="false" @select="handleSelect">
-
-    <el-menu-item index="home" @click="gotoUrl('/list')" class="menu-ico">
+    <el-menu-item index="home" @click="gotoUrl('/')" class="menu-ico">
       <el-icon size="1.5em">
         <House />
       </el-icon>
@@ -76,22 +75,19 @@
 </template>
 
 <script setup>
-import {HotWater, House, IceTea, KnifeFork} from "@element-plus/icons-vue";
-import {useRoute, useRouter} from 'vue-router';
-import {ref} from "vue";
+import { HotWater, House, IceTea, KnifeFork } from "@element-plus/icons-vue";
+import { useRoute, useRouter } from 'vue-router';
+import { ref } from "vue";
 const route = useRoute();
 const router = useRouter();
 const userId = ref(route.params.id);
-const handleSelect=(key, keyPath)=> {
+const handleSelect = (key, keyPath) => {
 }
 
-const gotoUrl = (keyPath)=> {
-  router.replace({
-    name: 'home', // 假设 detailView 是你定义的路由名称
-    params: { role: route.params.role }, // 传递角色作为参数
-    // query: { path: keyPath } // 或者将路径段作为查询参数
-  });
-  // router.replace( route.params.role+keyPath);
+const gotoUrl = (keyPath) => {
+  console.log(route.params);
+
+  router.push("/" + route.params.role + keyPath);
 
 }
 
@@ -101,7 +97,7 @@ const gotoUrl = (keyPath)=> {
 <style>
 .el-menu {
   width: 100%;
-  background-color: rgba(0,0,0,0) !important;   
+  background-color: rgba(0, 0, 0, 0) !important;
 }
 
 .flex-grow {

@@ -12,7 +12,6 @@
           <el-main>
             <div id="blog-list">
               <list :sharedData="debouncedSharedData" />
-
             </div>
           </el-main>
           <el-footer id="footer" v-if="blogTotal>0">

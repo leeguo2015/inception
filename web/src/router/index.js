@@ -12,6 +12,7 @@ import LoginView from '../views/login.vue'
 import Publish from '../components/blog/Publish.vue'
 import BlogDetail from '../components/blog/detail.vue'
 import Hall from '../components/Hall.vue'
+import App from '@/App.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,23 +22,35 @@ const router = createRouter({
             path: '/',
             name: 'home',
             redirect: '/visitor/list',
-            children:        {
-                path: ':role',
-                name: 'role',
-                component: {
-                    path: '/list',
+            // children:    
+        },
+        {
+            path: '/:role',
+            name: 'role',
+            props: true, // 允许通过路由传递 props
+            children: [
+                {
+                    path: 'list',
                     name: 'list',
                     // component: Hall,
                     children: [
                         {
                             path: ':blogType',
                             name: 'listType',
-                            // component: Hall,
+                            component: App,
                             props: true // 允许通过路由传递 props
                         }
                     ]
                 },
-            },
+                {
+                    path: 'blog/detail/:id',
+                    name: 'detail',
+                    component: BlogDetail,
+                    props: true // 允许通过路由传递 props
+                },
+                
+            
+            ]
         },
 
         // {
@@ -54,25 +67,24 @@ const router = createRouter({
         //   name: 'search',
         //   component: Publish
         // },
-
-        {
-            path: '/list',
-            name: 'list',
-            component: Hall,
-            children: [
-                {
-                    path: ':blogType',
-                    name: 'listType',
-                    component: Hall,
-                    props: true // 允许通过路由传递 props
-                }
-            ]
-        },
-        {
-            path: '/blog/detail/:id',
-            name: 'search',
-            component: BlogDetail
-        },
+        // {
+        //     path: '/list',
+        //     name: 'list',
+        //     component: Hall,
+        //     children: [
+        //         {
+        //             path: ':blogType',
+        //             name: 'listType',
+        //             component: Hall,
+        //             props: true // 允许通过路由传递 props
+        //         }
+        //     ]
+        // },
+        // {
+        //     path: '/blog/detail/:id',
+        //     name: 'search',
+        //     component: BlogDetail
+        // },
     ]
 })
 
