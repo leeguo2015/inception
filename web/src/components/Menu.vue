@@ -75,25 +75,27 @@
   </el-menu>
 </template>
 
-<script>
+<script setup>
 import {HotWater, House, IceTea, KnifeFork} from "@element-plus/icons-vue";
-
-export default {
-  components: {House, KnifeFork, IceTea, HotWater},
-  data() {
-    return {
-    };
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-    },
-
-    gotoUrl(url) {
-      this.$router.push(url);
-    }
-
-  }
+import {useRoute, useRouter} from 'vue-router';
+import {ref} from "vue";
+const route = useRoute();
+const router = useRouter();
+const userId = ref(route.params.id);
+const handleSelect=(key, keyPath)=> {
 }
+
+const gotoUrl = (keyPath)=> {
+  router.replace({
+    name: 'home', // 假设 detailView 是你定义的路由名称
+    params: { role: route.params.role }, // 传递角色作为参数
+    // query: { path: keyPath } // 或者将路径段作为查询参数
+  });
+  // router.replace( route.params.role+keyPath);
+
+}
+
+
 </script>
 
 <style>
