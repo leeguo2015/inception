@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <div v-for="post in sharedData" :key="post.blog.id" class="blog-post"
-      @click="router.push(`/` + route.params.role + `/blog/detail/` + post.blog.id)">
+      @click="router.push(`/blog/detail/` + post.blog.id)">
       <el-row>
         <el-col :span="24">
           <h2>{{ post.blog.title }}</h2>

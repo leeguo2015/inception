@@ -7,33 +7,39 @@
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 <template>
-  <el-menu default-active="/" class="top-menu el-menu-demo menu-padding" mode="horizontal" text-color="#070707"
+  <el-menu default-active="/" :router="true" class="top-menu el-menu-demo menu-padding" mode="horizontal" text-color="#070707"
     :ellipsis="false" @select="handleSelect">
-    <el-menu-item index="home" @click="gotoUrl('/')" class="menu-ico">
+    <el-menu-item index="/" class="menu-ico">
       <el-icon size="1.5em">
         <House />
       </el-icon>
       <div class="menu-ico-font">主页</div>
     </el-menu-item>
 
-    <el-menu-item index="blog_list" @click="gotoUrl('/list/blog')" class="menu-ico">
+    <el-menu-item index="/list/topic" class="menu-ico">
       <el-icon size="1.5em">
         <KnifeFork />
       </el-icon>
       <div class="menu-ico-font">技术</div>
     </el-menu-item>
 
-    <el-menu-item index="article" @click="gotoUrl('/list/article')" class="menu-ico">
+    <el-menu-item index="/list/article"  class="menu-ico">
       <el-icon size="1.5em">
         <HotWater />
       </el-icon>
       <div class="menu-ico-font">随笔</div>
     </el-menu-item>
-    <el-menu-item index="detail" @click="gotoUrl('/blog/detail/1')" class="menu-ico">
+<!--    <el-menu-item index="/blog/detail/1"  class="menu-ico">-->
+<!--      <el-icon size="1.5em">-->
+<!--        <IceTea />-->
+<!--      </el-icon>-->
+<!--      <div class="menu-ico-font">详情</div>-->
+<!--    </el-menu-item>-->
+    <el-menu-item index="/resources"  class="menu-ico">
       <el-icon size="1.5em">
-        <IceTea />
+        <HotWater />
       </el-icon>
-      <div class="menu-ico-font">详情</div>
+      <div class="menu-ico-font">资源</div>
     </el-menu-item>
     <!-- <el-menu-item index="/blog_add" @click="gotoUrl('blog_add')">
      发布博客
@@ -41,13 +47,18 @@
           <DocumentAdd />
         </el-icon>
     </el-menu-item> -->
-    <div class="flex-grow"></div>
-    <el-menu-item index="/search" @click="gotoUrl('search')" collapse-close-icon="Search" class="menu-ico">
+    <div class="flex-grow"/>
+    <div class="menu-ico">
+      <el-input v-model="searchInput" style="width: 240px; margin-right: 1rem" />
+    </div>
+
+    <el-menu-item  class="menu-ico" mode="horizontal">
       <el-icon size="1.5em">
         <Search />
       </el-icon>
       搜索
     </el-menu-item>
+
     <!-- <el-sub-menu index="/user" v-if="this.$store.state.User">
       <template #title>
 
@@ -83,30 +94,27 @@ const router = useRouter();
 const userId = ref(route.params.id);
 const handleSelect = (key, keyPath) => {
 }
+const searchInput = ref("")
 
 const gotoUrl = (keyPath) => {
-  console.log(route.params);
-
-  router.push("/" + route.params.role + keyPath);
-
+  router.push(keyPath);
 }
 
 
 </script>
 
-<style>
+<style scoped>
+
 .el-menu {
   width: 100%;
   background-color: rgba(0, 0, 0, 0) !important;
 }
-
-.flex-grow {
-  flex-grow: 1;
+.top-menu {
+  display: flex;
+  align-items: center;
 }
-
-.menu-ico {
-  font-size: 2em;
-  margin-top: 0.5rem;
+.flex-grow {
+  flex-grow: 2;
 }
 
 .menu-ico-font {

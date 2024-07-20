@@ -3,7 +3,7 @@
     <div v-for="tag in categories" :key="tag.id">
       <div class="broad-tag">
         <el-tag size="small" 
-          :type="activeList.includes(tag.id) ? 'success' : 'info'"
+          :type="activeCategoriesIDs.includes(tag.id) ? 'success' : 'info'"
           @click="addActive(tag.id)">
           {{ tag.name }}
         </el-tag>
@@ -14,7 +14,8 @@
 
 <script setup>
 import { ref } from 'vue';
-
+import { defineEmits } from 'vue';
+const emits = defineEmits(['activeCategoriesIDs']);
 const props = defineProps({
   categories: {
     type: Array,
@@ -22,14 +23,15 @@ const props = defineProps({
   }
 });
 
-let activeList = ref([]);
+let activeCategoriesIDs = ref([]);
 const addActive = (id) => {
-  const index = activeList.value.indexOf(id);
+  const index = activeCategoriesIDs.value.indexOf(id);
   if (index > -1) {
-    activeList.value.splice(index, 1);
+    activeCategoriesIDs.value.splice(index, 1);
   } else {
-    activeList.value.push(id);
+    activeCategoriesIDs.value.push(id);
   }
+  emits('activeCategoriesIDs', activeCategoriesIDs.value);
 };
 </script>
 
