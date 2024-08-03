@@ -10,12 +10,12 @@
 
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
+const  baseURL =  'http://124.223.114.178:8080'
+const  baseURLAPI = baseURL + '/v1/api'
 // 创建一个 axios 实例，配置一些全局的请求设置
 const instance = axios.create({
-  // baseURL: 'http://leeguo.top:8006/v1/api', // 设置接口的基础URL
-  baseURL: 'http://124.223.114.178:8080/v1/api', // 设置接口的基础URL
-  // baseURL: 'http://127.0.0.1:8080/v1/api', // 设置接口的基础URL
-  // baseURL: 'http://127.0.0.1:8008/v1/api', // 设置接口的基础URL
+  baseURL: baseURLAPI, // 设置接口的基础URL
+  // baseURL: 'https://124.223.114.178:8081/v1/api', // 设置接口的基础URL
   timeout: 15000, // 设置请求超时时间
   // 在这里可以设置其他的请求配置，比如请求头等
 });
@@ -46,5 +46,5 @@ export function post(url, data) {
 }
 // 可以继续封装其他类型的请求函数，比如 PUT、DELETE 等
 
-// export default instance;
+export  default baseURL
 

@@ -46,6 +46,7 @@ import { ref, onMounted, nextTick } from 'vue';
 import Vditor from 'vditor';
 import 'vditor/dist/index.css';
 import {get} from "@/assets/api";
+import baseURL from "@/assets/api";
 import router from "@/router";
 import {useRoute} from "vue-router";
 import {ElMessage} from "element-plus";
@@ -87,61 +88,31 @@ const formatDate = (dateString) => {
    return `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`;
  };
 
+const renderMarkdown = (content) => {
+  // http://124.223.114.178:8080/upload/2220240804/d36fu5storrxatf43z.png
+ //  http://124.223.114.178:8081/upload/20240804/d36fu5storrxatf43z.png
+  console.log(content);
+  content = content.replace("](/upload/", `"](${baseURL}/upload/`);
+  console.log(content);
+  Vditor.preview(vditorContent.value, content, {
+    // 预览配置项
+    maxWidth: 800,
+    // 其他配置项
+  });
+};
+
 onMounted( () => {
-  // await nextTick(); // 确保 DOM 已经更新
-  try {
-    const vditor = new Vditor(vditorContent.value, {
-      // height: 500,
-      cache: {
-        enable: false
-      },
-      after: () => {
-        // 将博客内容设置为 Vditor 的内容
-        console.log(blogInfo.value);
+  get("/article/detail", {id:route.params.id}).then((res) => {
+    if (res.code === 0) {
+      blogInfo.value = res.data;
+      console.log(res);
+      renderMarkdown(blogInfo.value.blog.content);
 
-        vditor.setValue(blogInfo.value.blog.content);
-        // 切换到预览模式
-        // vditor.setPreviewMode("no");
-
-      },
-      toolbarConfig: {
-        hide: true, // 隐藏工具栏
-        // pin:true,
-      },
-      // preview: {
-      //   // markdown: {
-      //   //   sanitize: true // 确保安全的渲染
-      //   // }
-      // },
-    });
-    get("/article/detail", {id:route.params.id}).then((res) => {
-      if (res.code === 0) {
-        blogInfo.value = res.data;
-        console.log(res);
-        vditor.setValue(blogInfo.value.blog.content);
-
-      }else {
-        ElMessage.error('获取失败');
-      }
-
-    });
-
-    // 手动设置内容为不可编辑
-    const editorElement = vditorContent.value.querySelector('.vditor-content');
-    if (editorElement) {
-      editorElement.contentEditable = 'false';
-      editorElement.style.pointerEvents = 'none';
+    }else {
+      ElMessage.error('获取失败');
     }
 
-    // 禁用用户交互
-    vditorContent.value.querySelectorAll('*').forEach(element => {
-      element.style.pointerEvents = 'none';
-    });
-
-  } catch (error) {
-    console.error('Vditor initialization error:', error);
-  }
-
+  });
 });
 </script>
 
@@ -149,6 +120,8 @@ onMounted( () => {
 .blog-detail {
   margin: 0 auto;
   padding: 20px;
+  min-width: 800px;
+  max-width: 1000px;
 
 }
 .vditor{
