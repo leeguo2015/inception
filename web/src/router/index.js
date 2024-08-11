@@ -9,8 +9,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import BlogDetail from '../components/blog/detailG.vue'
 import ListSidebarComponent from "@/views/ListSidebarBlog.vue";
-import role from "@/components/role.vue";
-import resources from "@/components/resources.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,12 +31,6 @@ const router = createRouter({
             name: 'detail',
             component: BlogDetail,
             props: route => ({id: route.params.id}),
-        },
-        {
-            path: '/resources',
-            name: 'resources',
-            component: resources,
-            props: true,
         }
     ]
 

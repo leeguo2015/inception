@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { defineEmits } from 'vue';
+// import { defineEmits } from 'vue';
 const emits = defineEmits(['activeCategoriesIDs']);
 const props = defineProps({
   categories: {

@@ -50,7 +50,7 @@ import baseURL from "@/assets/api";
 import router from "@/router";
 import {useRoute} from "vue-router";
 import {ElMessage} from "element-plus";
-
+// import '@/assets/lute.min.js'; // 引入本地的 lute.min.js 文件
 const blogInfo = ref({
   "blog": {
     "id": 0,
@@ -89,11 +89,7 @@ const formatDate = (dateString) => {
  };
 
 const renderMarkdown = (content) => {
-  // http://124.223.114.178:8080/upload/2220240804/d36fu5storrxatf43z.png
- //  http://124.223.114.178:8081/upload/20240804/d36fu5storrxatf43z.png
-  console.log(content);
   content = content.replace("](/upload/", `"](${baseURL}/upload/`);
-  console.log(content);
   Vditor.preview(vditorContent.value, content, {
     // 预览配置项
     maxWidth: 800,
@@ -105,9 +101,8 @@ onMounted( () => {
   get("/article/detail", {id:route.params.id}).then((res) => {
     if (res.code === 0) {
       blogInfo.value = res.data;
-      console.log(res);
+      console.log("res:",res);
       renderMarkdown(blogInfo.value.blog.content);
-
     }else {
       ElMessage.error('获取失败');
     }
@@ -132,9 +127,4 @@ onMounted( () => {
   text-align: center;
   font-size: 2rem;
 }
-
-.blog-content {
-
-}
-
 </style>
