@@ -1,5 +1,7 @@
 package handle
 
-func func Login(c *gin.Context) {
+import "github.com/gin-gonic/gin"
+
+func GetUsers(c *gin.Context) {
 
 }
