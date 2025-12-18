@@ -13,6 +13,7 @@ func User(route *gin.RouterGroup) {
 
 func Logon(route *gin.RouterGroup) {
 	route.POST("/logon", handle.Logon)
+	route.POST("/register", handle.Logon)
 }
 
 func Login(route *gin.RouterGroup) {

@@ -58,6 +58,13 @@
       </el-icon>
       搜索
     </el-menu-item>
+        <el-menu-item  index="/login" class="menu-ico" mode="horizontal">
+      <el-icon size="1.5em">
+        <User />
+      </el-icon>
+      登录
+    </el-menu-item>
+
 
     <!-- <el-sub-menu index="/user" v-if="this.$store.state.User">
       <template #title>

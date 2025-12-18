@@ -11,7 +11,7 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 // const  baseURL =  'http://124.223.114.178:8080'
-const  baseURL =  'https://124.223.114.178:8081'
+const  baseURL =  'http://127.0.0.1:8080'
 const  baseURLAPI = baseURL + '/v1/api'
 // 创建一个 axios 实例，配置一些全局的请求设置
 const instance = axios.create({
