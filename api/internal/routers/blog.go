@@ -16,6 +16,7 @@ func Blog(route *gin.RouterGroup) {
 // 目前权限全放开， 不考虑权限问题
 
 func Info(route *gin.RouterGroup) {
+	route.GET("/", handle.BlogList)
 	route.POST("/", handle.BlogAdd)
 	route.GET("/:blog_id", handle.BlogGet)
 	route.DELETE("/:blog_id", handle.BlogDelete)

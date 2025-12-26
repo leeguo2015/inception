@@ -41,12 +41,12 @@
       </el-icon>
       <div class="menu-ico-font">资源</div>
     </el-menu-item>
-    <!-- <el-menu-item index="/blog_add" @click="gotoUrl('blog_add')">
+    <el-menu-item index="/blog_add" @click="gotoUrl('/blogs/new')">
      发布博客
         <el-icon>
           <DocumentAdd />
         </el-icon>
-    </el-menu-item> -->
+    </el-menu-item>
     <div class="flex-grow"/>
     <div class="menu-ico">
       <el-input v-model="searchInput" style="width: 240px; margin-right: 1rem" />
@@ -104,7 +104,7 @@ const handleSelect = (key, keyPath) => {
 const searchInput = ref("")
 
 const gotoUrl = (keyPath) => {
-  router.push(keyPath);
+  router.replace(keyPath);
 }
 
 

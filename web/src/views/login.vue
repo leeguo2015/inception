@@ -12,7 +12,7 @@
       <el-card class="login-card">
         <div class="card-top">
           <div class="logo-wrap">
-            <div class="logo-icon">IC</div>
+            <!-- <div class="logo-icon">IC</div> -->
             <div class="logo-text">Inception</div>
           </div>
           <div class="card-desc">内容创作 · 简洁高效的博客平台</div>
@@ -43,7 +43,15 @@
               </div>
 
               <el-form-item>
-                <el-button type="primary" @click="onSubmit" class="primary-btn">登录</el-button>
+                <el-button 
+                  type="primary" 
+                  @click="onSubmit" 
+                  class="primary-btn"
+                  :loading="loading && activeTab === 'login'"
+                  :disabled="loading && activeTab === 'login'"
+                >
+                  {{ loading && activeTab === 'login' ? '登录中...' : '登录' }}
+                </el-button>
               </el-form-item>
             </el-form>
           </el-tab-pane>
@@ -83,7 +91,7 @@
 
         <div class="card-footer">
           <div class="foot-text">或使用第三方账号登录</div>
-          <div class="social-icons"> 
+          <div class="social-icons">
             <i class="el-icon-s-platform"></i>
             <i class="el-icon-s-promotion"></i>
           </div>
@@ -94,8 +102,9 @@
 </template>
 <script>
 import { ElMessageBox } from "element-plus";
-
+import { useUserStore } from '@/stores/user'
 import { ElMessage } from "element-plus";
+import { api } from '@/services/api'
 
 export default {
   data() {
@@ -112,30 +121,43 @@ export default {
         email: "",
       },
       remember: false,
+      loading: false,
     };
   },
   methods: {
     onSubmit() {
-      const formData = new FormData();
-      formData.append("username", this.form.name);
-      formData.append("password", this.form.password);
-      this.$api
-        .post("/user/login", formData)
-        .then((res) => {
-          if (res.code == "200") {
-            ElMessage.success("登录成功");
-            this.$store.commit("SET_TOKEN", res.data.token);
-            this.$store.commit("SET_USER", res.data.userInfo);
-            // 延迟0.5s跳转至主页
-            setTimeout(()=>{
-            this.$router.push("/blog_add");
-            },800)
+      if (!this.form.name || !this.form.password) {
+        this.showMessageBox("请输入用户名和密码");
+        return;
+      }
 
+      this.loading = true;
+      const payload = {
+        username: this.form.name,
+        password: this.form.password,
+      };
+      
+      api.post("/user/login", payload)
+        .then((res) => {
+          if (res.code === 200 || res.code == "200") {
+            const userStore = useUserStore()
+            userStore.setToken(res.data.token)
+            userStore.setUser(res.data.userInfo)
+            setTimeout(() => {
+              console.log("跳转主页");
+              this.$router.push("/");
+            }, 800)
           } else {
-            this.showMessageBox(res.msg);
+            this.showMessageBox(res.msg || "登录失败");
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          console.error("登录失败:", err);
+          // this.showMessageBox("登录失败，请检查网络连接");
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     showMessageBox(msg) {
       ElMessageBox.alert(msg, "登录失败", {
@@ -150,10 +172,10 @@ export default {
         email: this.registerForm.email,
       };
 
-      this.$api
-        .post("/user/register", payload)
+      this.loading = true;
+      api.post("/user/register", payload)
         .then((res) => {
-          if (res.code == "200") {
+          if (res.code === 200 || res.code == "200") {
             ElMessage.success("注册成功，请登录");
             this.activeTab = "login";
             this.registerForm = { name: "", password: "", email: "" };
@@ -162,7 +184,11 @@ export default {
           }
         })
         .catch((err) => {
+          console.error("注册失败:", err);
           ElMessageBox.alert(err?.message || "网络错误", "注册失败", { type: "error" });
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     forgot() {
@@ -253,30 +279,97 @@ export default {
 .login-card {
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(16,39,112,0.18);
+  box-shadow: 0 12px 40px rgba(16, 39, 112, 0.18);
 }
 
 .card-top {
   padding: 22px 24px 16px 24px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
 }
 
-.logo-wrap{
-  display:flex;align-items:center;gap:12px;
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.logo-icon{
-  width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#409eff,#67c23a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;
-}
-.logo-text{font-size:20px;color:#fff;font-weight:700}
-.card-desc{font-size:12px;color:rgba(255,255,255,0.85);margin-top:8px}
 
-.el-tabs__header{padding:20px}
-.input-item{margin:12px 0}
-.input-size{width:100%;height:44px;border-radius:22px}
-.actions-row{display:flex;justify-content:space-between;align-items:center;margin:8px 0 16px}
-.forgot{color:rgba(0,0,0,0.45);font-size:13px;cursor:pointer}
-.primary-btn{width:100%;height:46px;border-radius:24px;background:linear-gradient(90deg,#409eff,#67c23a);color:#fff;border:none}
-.card-footer{padding:16px 20px;border-top:1px solid rgba(0,0,0,0.04);display:flex;justify-content:space-between;align-items:center}
-.foot-text{color:rgba(0,0,0,0.45);font-size:12px}
-.social-icons i{font-size:18px;color:rgba(0,0,0,0.45);margin-left:8px}
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #409eff, #67c23a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.logo-text {
+  font-size: 20px;
+  color: #000000;
+  font-weight: 700
+}
+
+.card-desc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px
+}
+
+.el-tabs__header {
+  padding: 20px
+}
+
+.input-item {
+  margin: 12px 0
+}
+
+.input-size {
+  width: 100%;
+  height: 44px;
+  border-radius: 22px
+}
+
+.actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0 16px
+}
+
+.forgot {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 13px;
+  cursor: pointer
+}
+
+.primary-btn {
+  width: 100%;
+  height: 46px;
+  border-radius: 24px;
+  /* background: linear-gradient(90deg, #409eff, #67c23a); */
+  color: #fff;
+  border: none
+}
+
+.card-footer {
+  padding: 16px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+.foot-text {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 12px
+}
+
+.social-icons i {
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-left: 8px
+}
 </style>

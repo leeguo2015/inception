@@ -9,13 +9,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type LoginRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 // Login
 //
 //	@Description:
 //	@param c
 func Login(c *gin.Context) {
-	userName := c.PostForm("username")
-	password := c.PostForm("password")
+	var req LoginRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		global.Log.Error("登录参数绑定错误：", err.Error())
+		response.HttpBadRequest("参数格式错误", c)
+		return
+	}
+	
+	userName := req.Username
+	password := req.Password
+	
 	// todo 暂时关闭验证码
 	//captcha := c.Param("captcha")
 	//captchaID := c.Param("captchaID")

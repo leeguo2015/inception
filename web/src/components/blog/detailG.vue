@@ -45,12 +45,11 @@
 import { ref, onMounted, nextTick } from 'vue';
 import Vditor from 'vditor';
 import 'vditor/dist/index.css';
-import {get} from "@/assets/api";
-import baseURL from "@/assets/api";
+import { api } from '@/services/api';
+import { baseURL } from '@/services/api';
 import router from "@/router";
 import {useRoute} from "vue-router";
 import {ElMessage} from "element-plus";
-// import '@/assets/lute.min.js'; // 引入本地的 lute.min.js 文件
 const blogInfo = ref({
   "blog": {
     "id": 0,
@@ -98,7 +97,7 @@ const renderMarkdown = (content) => {
 };
 
 onMounted( () => {
-  get("/article/detail", {id:route.params.id}).then((res) => {
+  api.get("/article/detail", {id:route.params.id}).then((res) => {
     if (res.code === 0) {
       blogInfo.value = res.data;
       console.log("res:",res);

@@ -14,13 +14,14 @@ import router from './router'
 import ElementPlus from 'element-plus';//为vue3项目特别更新的版本
 import 'element-plus/dist/index.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import store from './assets/global' // 导入Vuex store
 import './assets/main.css'
-import * as api from './assets/api'
+import * as api from './services/api.js'
+import { createPinia } from 'pinia'
 
 
-let app = createApp(App)
-
+const app = createApp(App)
+const pinia = createPinia()
+app.use(pinia)
 
 app.config.productionTip = true
 

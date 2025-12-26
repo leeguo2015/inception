@@ -10,23 +10,26 @@ import {createRouter, createWebHistory} from 'vue-router'
 import BlogDetail from '../components/blog/detailG.vue'
 import ListSidebarComponent from "@/views/ListSidebarBlog.vue";
 import Login from "@/views/login.vue";
+import BlogList from '@/views/BlogList.vue'
+import BlogEditor from '@/views/BlogEditor.vue'
+import BlogView from '@/views/BlogView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        {
-            path: '/',
-            name: 'home',
-            component: ListSidebarComponent,
-            children :[
-                {
-                    path: 'list/:blogType',
-                    name: 'list',
-                    component: ListSidebarComponent,
-                    props: route => ({role: route.params.role, blogType: route.params.blogType}),
-                },
-            ]
-        },
+        // {
+        //     path: '/',
+        //     name: 'home',
+        //     component: ListSidebarComponent,
+        //     children :[
+        //         {
+        //             path: 'list/:blogType',
+        //             name: 'list',
+        //             component: ListSidebarComponent,
+        //             props: route => ({role: route.params.role, blogType: route.params.blogType}),
+        //         },
+        //     ]
+        // },
         {
             path: '/blog/detail/:id',
             name: 'detail',
@@ -38,7 +41,11 @@ const router = createRouter({
             name: 'login',
             component: Login,
 
-        }
+        },
+        { path: '/', name: 'BlogList', component: BlogList },
+        { path: '/blogs/new', name: 'BlogNew', component: BlogEditor },
+        { path: '/blogs/:id', name: 'BlogView', component: BlogView },
+        { path: '/blogs/:id/edit', name: 'BlogEdit', component: BlogEditor }
     ]
 
 })

@@ -34,7 +34,7 @@ func Start() {
 	router := gin.Default()
 	router.Use(gin.Recovery())
 	router.Use(middleware.JWTAuth())
-	router.Use(middleware.Cors())
+	router.Use(middleware.Cors()) // 全局CORS中间件
 	router.GET("/", func(c *gin.Context) {
 		c.String(200, "OK")
 	})

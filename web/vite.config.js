@@ -13,8 +13,11 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // external: ['vuex']
+      external: ['vuex']
     }
   },
   hot: true,//自动保存
+  optimizeDeps: {
+    include: ['quill', '@vueup/vue-quill']
+  }
 })
